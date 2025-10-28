@@ -1,0 +1,36 @@
+html, body{
+    background-color: rgb(40, 53, 18);
+    color: white;
+}
+
+.Cabecera {
+    text-align: center;
+    background-color: black;
+    color: white;
+    padding: 20px;
+    font-size: 1.5em;
+}
+
+.boton1 {
+    background-color: rgb(186, 16, 16);
+    color: white;
+    font-size: 1em;
+}
+
+.boton2 {
+    background-color: rgb(18, 170, 205);
+    color: white;
+    font-size: 1em;
+}
+
+.boton3{
+    background-color: rgb(18, 170, 205);
+    color: white;
+    font-size: 1em;
+}
+
+.div1{
+    text-align: center;
+    padding: 20px;
+    font-size: 1.5em;
+}
