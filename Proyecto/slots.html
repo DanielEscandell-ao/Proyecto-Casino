@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Slots</title>
+  <link rel="stylesheet" href="../Proyecto/CSS/slots.css" />
+  <script src="../Proyecto/JS/slots.js" defer></script>
+</head>
+<body>
+  <main class="app" aria-label="Máquina tragamonedas">
+    <header class="topbar">
+      <h1 class="brand">Slots</h1>
+      <div class="balance" aria-live="polite">
+        Saldo: <strong id="balance">1000</strong> créditos
+      </div>
+    </header>
+
+    <!-- Pantalla principal -->
+    <section class="slot" role="group" aria-label="Rodillos">
+      <div class="reel" aria-label="Rodillo 1">
+        <span class="symbol">🍒</span>
+        <span class="symbol">🍋</span>
+        <span class="symbol">🔔</span>
+      </div>
+      <div class="reel" aria-label="Rodillo 2">
+        <span class="symbol">🍒</span>
+        <span class="symbol">⭐</span>
+        <span class="symbol">🍀</span>
+      </div>
+      <div class="reel" aria-label="Rodillo 3">
+        <span class="symbol">🍇</span>
+        <span class="symbol">7️⃣</span>
+        <span class="symbol">🍋</span>
+      </div>
+    </section>
+
+    <!-- Controles -->
+    <section class="controls" aria-label="Controles de apuesta">
+      <div class="bet">
+        <label for="bet" class="bet__label">Apuesta</label>
+        <div class="bet__group">
+          <button class="btn btn--ghost" id="betMinus" aria-label="Bajar apuesta">−</button>
+          <input id="bet" class="bet__input" type="number" min="1" max="100" step="1" value="10" inputmode="numeric" />
+          <button class="btn btn--ghost" id="betPlus" aria-label="Subir apuesta">+</button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn--secondary" id="autoSpin" aria-pressed="false">Automático</button>
+        <button class="btn btn--primary" id="spin">GIRAR</button>
+        <button class="btn" id="mute" aria-pressed="false" title="Silenciar/Activar sonido">🔊 Sonido</button>
+      </div>
+    </section>
+
+    <!-- Panel de mensajes -->
+    <section class="message" aria-live="polite" id="message">
+      ¡Bienvenido! Ajusta tu apuesta y pulsa GIRAR.
+    </section>
+
+    <!-- Tabla de premios -->
+    <section class="paytable" aria-label="Tabla de premios">
+      <h2>Tabla de premios</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Combinación</th>
+            <th>Pago × apuesta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>7️⃣ 7️⃣ 7️⃣</td>
+            <td>×100</td>
+          </tr>
+          <tr>
+            <td>⭐ ⭐ ⭐</td>
+            <td>×40</td>
+          </tr>
+          <tr>
+            <td>🔔 🔔 🔔</td>
+            <td>×20</td>
+          </tr>
+          <tr>
+            <td>🍀 🍀 🍀</td>
+            <td>×10</td>
+          </tr>
+          <tr>
+            <td>Cualquier triple de fruta</td>
+            <td>×5</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <footer class="footer">
+      <small>Interfaz de demostración • Solo front-end (agrega tu lógica JavaScript para girar, aleatorios y premios).</small>
+    </footer>
+  </main>
