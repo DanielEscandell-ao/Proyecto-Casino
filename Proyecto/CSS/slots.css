@@ -12,6 +12,15 @@ body {
   color: #f5f7ff;
 }
 
+/*Cabecera*/
+.links {
+    text-align: center; 
+    box-shadow: 6px 8px 20px white;
+    background-color:;
+    border: 3px solid white;
+    margin: 30px;
+}
+
 /* Contenedor principal */
 .app {
   max-width: 980px;
