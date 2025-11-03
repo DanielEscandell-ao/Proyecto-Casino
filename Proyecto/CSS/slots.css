@@ -1,0 +1,224 @@
+/* Reset básico */
+* {
+  box-sizing: border-box;
+}
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  background: radial-gradient(1200px 600px at 70% -10%, #1b1b3a 0%, #0b0b1a 60%, #05050c 100%);
+  color: #f5f7ff;
+}
+
+/*Cabecera*/
+.links {
+    text-align: center; 
+    box-shadow: 6px 8px 20px white;
+    background-color:;
+    border: 3px solid white;
+    margin: 30px;
+}
+
+/* Contenedor principal */
+.app {
+  max-width: 980px;
+  margin: 24px auto;
+  padding: 16px;
+}
+
+/* Barra superior */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.brand {
+  margin: 0;
+  font-size: clamp(24px, 4vw, 36px);
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 10px rgba(255, 0, 153, 0.35), 0 0 20px rgba(0, 200, 255, 0.25);
+}
+.balance strong {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Rodillos */
+.slot {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  box-shadow: 0 8px 30px rgba(0,0,0,0.45),
+              inset 0 0 0 2px rgba(255,255,255,0.08);
+  margin-bottom: 16px;
+}
+.reel {
+  height: 200px;
+  border-radius: 12px;
+  display: grid;
+  grid-auto-rows: 1fr;
+  align-content: center;
+  justify-items: center;
+  gap: 6px;
+  background: linear-gradient(180deg, #0f1230, #0a0d24);
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.06),
+              inset 0 10px 30px rgba(0,0,0,0.5);
+  overflow: hidden;
+  position: relative;
+}
+.symbol {
+  font-size: 40px;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6));
+  user-select: none;
+}
+
+/* Estado de "girando" (añadido con JS) */
+.reel.spinning .symbol {
+  animation: spin 650ms linear infinite;
+}
+@keyframes spin {
+  from { transform: translateY(-120%); }
+  to   { transform: translateY(120%); }
+}
+
+/* Controles de apuesta */
+.controls {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.bet {
+  display: grid;
+  gap: 6px;
+  align-items: center;
+}
+.bet__label {
+  opacity: 0.85;
+  font-size: 14px;
+}
+.bet__group {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  align-items: center;
+  max-width: 260px;
+}
+.bet__input {
+  width: 100%;
+  appearance: textfield;
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  padding: 10px 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  font-variant-numeric: tabular-nums;
+}
+.bet__input:focus {
+  outline: 2px solid #61dafb;
+  border-color: transparent;
+}
+
+/* Botones */
+.btn {
+  border: 1px solid rgba(255,255,255,0.14);
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.06s ease, box-shadow 0.2s ease, background 0.2s ease;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+.btn:hover {
+  transform: translateY(-1px);
+}
+.btn:active {
+  transform: translateY(1px) scale(0.98);
+}
+.btn--primary {
+  background: linear-gradient(180deg, #00e1ff, #00a8ff);
+  border: none;
+  box-shadow: 0 10px 24px rgba(0,168,255,0.35);
+}
+.btn--secondary {
+  background: linear-gradient(180deg, #ff00a8, #c8007a);
+  border: none;
+  box-shadow: 0 10px 24px rgba(255,0,168,0.35);
+}
+.btn--ghost {
+  background: transparent;
+  border: 1px dashed rgba(255,255,255,0.22);
+}
+
+/* Mensaje informativo */
+.message {
+  min-height: 40px;
+  display: grid;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 12px;
+}
+
+/* Tabla de premios */
+.paytable {
+  margin-top: 8px;
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.paytable h2 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  opacity: 0.95;
+}
+.paytable table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.paytable th,
+.paytable td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.paytable th {
+  text-align: left;
+  opacity: 0.85;
+}
+
+.footer {
+  margin-top: 16px;
+  opacity: 0.7;
+  text-align: center;
+}
+
+/* Adaptación a móviles */
+@media (max-width: 640px) {
+  .slot {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .reel {
+    height: 160px;
+  }
+  .controls {
+    grid-template-columns: 1fr;
+  }
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+}
