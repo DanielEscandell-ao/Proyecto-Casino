@@ -1,6 +1,6 @@
 body {
   font-family: "Segoe UI", sans-serif;
-  background: radial-gradient(circle at center, #004a00, #012d01);
+  background: radial-gradient(circle at center, #1a1a1a, #000);
   color: #fff;
   display: flex;
   justify-content: center;
@@ -8,6 +8,7 @@ body {
   height: 100vh;
   margin: 0;
   padding: 20px;
+  padding-top: 80px;
 }
 
 .container {
@@ -15,7 +16,40 @@ body {
   gap: 40px;
 }
 
-/* RUETA */
+/* ======== MENÚ DE NAVEGACIÓN (IGUAL QUE PORTADA) ======== */
+.links {
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(90deg, #000, #1a1a1a);
+  border-bottom: 2px solid #ff1100ff;
+  padding: 1rem 0;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.links div {
+  margin: 0 1.5rem;
+}
+
+.links a {
+  text-decoration: none;
+  color: #f5f5f5;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.links a:hover {
+  color: #ff1100ff;
+  transform: scale(1.1);
+}
+
+/* ====== RULETA ====== */
 .ruleta-area {
   position: relative;
   width: 420px;
@@ -23,9 +57,10 @@ body {
 }
 
 #ruleta {
-  border: 5px solid gold;
+  border: 5px solid #ff1100ff;
   border-radius: 50%;
   background: radial-gradient(circle at center, #222 0%, #000 90%);
+  box-shadow: 0 0 25px rgba(255, 17, 0, 0.5);
 }
 
 .flecha {
@@ -37,51 +72,63 @@ body {
   height: 0;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
-  border-bottom: 25px solid #fff;
+  border-bottom: 25px solid #ff1100ff;
   border-top: 400px solid transparent;
   z-index: 10;
 }
 
-/* PANEL DERECHO */
+/* ====== PANEL DERECHO ====== */
 .panel {
-  background: #064a06;
-  border: 3px solid gold;
+  background: rgba(20, 20, 20, 0.9);
+  border: 3px solid #ff1100ff;
   border-radius: 12px;
   padding: 20px;
   width: 480px;
   text-align: center;
-  box-shadow: 0 0 15px #000a;
+  box-shadow: 0 0 20px rgba(255, 17, 0, 0.3);
 }
 
+.panel h1 {
+  color: #ff1100ff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+  animation: glow 2s infinite alternate;
+}
+
+/* ====== FICHAS ====== */
 .fichas {
   margin-bottom: 10px;
 }
 
 .fichas button {
-  background: gold;
-  border: none;
+  background: #000;
+  color: #ff1100ff;
+  border: 2px solid #ff1100ff;
   border-radius: 50%;
   width: 50px;
   height: 50px;
   margin: 5px;
   cursor: pointer;
   font-weight: bold;
-  transition: transform 0.2s;
+  transition: all 0.2s ease;
 }
 
 .fichas button:hover {
+  background: #ff1100ff;
+  color: #000;
   transform: scale(1.1);
 }
 
-/* TAPETE */
+/* ====== TAPETE ====== */
 .tapete {
   display: grid;
-  grid-template-columns: repeat(8, 1fr); /* 12 columnas, ajusta según tu diseño */
+  grid-template-columns: repeat(8, 1fr);
   gap: 6px;
-  background: #013d1d;
+  background: #111;
   padding: 10px;
   border-radius: 10px;
-  border: 2px solid #0a0;
+  border: 2px solid #ff1100ff;
   margin-top: 10px;
 }
 
@@ -89,11 +136,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50px;      /* Tamaño uniforme */
+  width: 50px;
   height: 50px;
   font-weight: bold;
   color: #fff;
-  border: 1px solid #999;
+  border: 1px solid #333;
   border-radius: 4px;
   cursor: pointer;
   transition: transform 0.2s, border 0.2s;
@@ -101,10 +148,10 @@ body {
 
 .casilla:hover {
   transform: scale(1.05);
-  border-color: gold;
+  border-color: #ff1100ff;
 }
 
-/* COLORES */
+/* ====== COLORES DE CASILLAS ====== */
 .casilla.rojo {
   background: #b30000;
 }
@@ -114,21 +161,40 @@ body {
 }
 
 .casilla.verde {
-  background: green;
+  background: #006600;
 }
 
-/* BOTONES */
+/* ====== BOTÓN GIRAR ====== */
 #girar {
-  background: gold;
+  background: linear-gradient(90deg, #ff1100ff, #ff3b3b);
   border: none;
   padding: 12px 25px;
   margin-top: 20px;
   border-radius: 25px;
   font-weight: bold;
   cursor: pointer;
+  color: #000;
+  transition: transform 0.2s, box-shadow 0.3s;
 }
 
+#girar:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 25px #ff1100ff;
+}
+
+/* ====== RESULTADO ====== */
 #resultado {
   margin-top: 15px;
   font-size: 1.2rem;
+  color: #fff;
+}
+
+/* ====== ANIMACIÓN ====== */
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px #ff1100ff, 0 0 20px #ff1100ff;
+  }
+  to {
+    text-shadow: 0 0 25px #ff1100ff, 0 0 50px #ff1100ff;
+  }
 }

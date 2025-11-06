@@ -7,6 +7,23 @@
   <link rel="stylesheet" href="CSS/ruleta.css" />
 </head>
 <body>
+  <div class="links">
+        <div class="inicio">
+            <a href="proyecto.html">Inicio</a>
+        </div>
+        <div class="blackjack">
+            <a href="blackjack.html">Blackjack</a>
+        </div>
+        <div class="poker">
+            <a href="poker.html">Poker</a>
+        </div>
+        <div class="slots">
+            <a href="slots.html">Slots</a>
+        </div>
+        <div class="ruleta">
+            <a href="ruleta.html">Ruleta</a>
+        </div>
+    </div>
   <div class="container">
     <!-- Ruleta -->
     <div class="ruleta-area">
@@ -16,7 +33,7 @@
 
     <!-- Panel de apuestas -->
     <div class="panel">
-      <h1>🎰 Ruleta Europea</h1>
+      <h1>Ruleta</h1>
       <p id="balance">💰 Balance: $1000</p>
 
       <div class="fichas">
@@ -25,11 +42,12 @@
         <button data-value="10">$10</button>
         <button data-value="50">$50</button>
         <button data-value="100">$100</button>
+        <button data-value="500">$500</button>
       </div>
 
       <div id="tapete" class="tapete"></div>
 
-      <button id="girar">Girar Ruleta 🎡</button>
+      <button id="girar">Girar Ruleta</button>
       <p id="resultado"></p>
     </div>
   </div>
