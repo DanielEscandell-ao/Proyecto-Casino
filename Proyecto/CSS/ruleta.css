@@ -76,11 +76,10 @@ body {
 /* TAPETE */
 .tapete {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-auto-rows: 50px;
-  gap: 4px;
-  background: #013d01;
-  padding: 8px;
+  grid-template-columns: repeat(8, 1fr); /* 12 columnas, ajusta según tu diseño */
+  gap: 6px;
+  background: #013d1d;
+  padding: 10px;
   border-radius: 10px;
   border: 2px solid #0a0;
   margin-top: 10px;
@@ -90,17 +89,19 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #999;
+  width: 50px;      /* Tamaño uniforme */
+  height: 50px;
   font-weight: bold;
   color: #fff;
+  border: 1px solid #999;
+  border-radius: 4px;
   cursor: pointer;
   transition: transform 0.2s, border 0.2s;
-  border-radius: 4px;
 }
 
 .casilla:hover {
   transform: scale(1.05);
-  border: 2px solid gold;
+  border-color: gold;
 }
 
 /* COLORES */
