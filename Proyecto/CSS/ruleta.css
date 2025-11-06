@@ -1,0 +1,134 @@
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: radial-gradient(circle at center, #004a00, #012d01);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  display: flex;
+  gap: 40px;
+}
+
+/* RUETA */
+.ruleta-area {
+  position: relative;
+  width: 420px;
+  height: 420px;
+}
+
+#ruleta {
+  border: 5px solid gold;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, #222 0%, #000 90%);
+}
+
+.flecha {
+  position: absolute;
+  top: 0;
+  left: 47%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-bottom: 25px solid #fff;
+  border-top: 400px solid transparent;
+  z-index: 10;
+}
+
+/* PANEL DERECHO */
+.panel {
+  background: #064a06;
+  border: 3px solid gold;
+  border-radius: 12px;
+  padding: 20px;
+  width: 480px;
+  text-align: center;
+  box-shadow: 0 0 15px #000a;
+}
+
+.fichas {
+  margin-bottom: 10px;
+}
+
+.fichas button {
+  background: gold;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.2s;
+}
+
+.fichas button:hover {
+  transform: scale(1.1);
+}
+
+/* TAPETE */
+.tapete {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr); /* 12 columnas, ajusta según tu diseño */
+  gap: 6px;
+  background: #013d1d;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #0a0;
+  margin-top: 10px;
+}
+
+.casilla {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;      /* Tamaño uniforme */
+  height: 50px;
+  font-weight: bold;
+  color: #fff;
+  border: 1px solid #999;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s, border 0.2s;
+}
+
+.casilla:hover {
+  transform: scale(1.05);
+  border-color: gold;
+}
+
+/* COLORES */
+.casilla.rojo {
+  background: #b30000;
+}
+
+.casilla.negro {
+  background: #111;
+}
+
+.casilla.verde {
+  background: green;
+}
+
+/* BOTONES */
+#girar {
+  background: gold;
+  border: none;
+  padding: 12px 25px;
+  margin-top: 20px;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#resultado {
+  margin-top: 15px;
+  font-size: 1.2rem;
+}
