@@ -8,3 +8,12 @@
     55px;
 }
 
+.table {
+  background: #0d1a2b;
+  margin: 30px auto;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 900px;
+  color: white;
+  text-align: center;
+}
