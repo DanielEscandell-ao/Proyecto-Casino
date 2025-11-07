@@ -21,20 +21,20 @@
 
 
 <div class="table" id="table">
-<div class="controls">
-<button id="dealBtn">Repartir</button>
-<button id="drawBtn"disabled>cambiar</button>
-<button id="newBtn" disabled>nueva mano</button>
-<div style="margin-left:auto" class="label">mano simple contra CPU</div>
-</div>
+    <div class="controls">
+      <button id="dealBtn">Repartir</button>
+      <button id="drawBtn" disabled>Cambiar</button>
+      <button id="newBtn" disabled>Nueva mano</button>
+      <div style="margin-left:auto" class="label">Juegas contra la CPU</div>
+    </div>
 
-  <div class="row">
+    <div class="row">
       <div>
         <div class="label">Jugador</div>
         <div id="playerHand" class="hand"></div>
         <div id="playerEval" class="status"></div>
       </div>
-
+      
       <div>
         <div class="label">CPU</div>
         <div id="cpuHand" class="hand"></div>
@@ -42,57 +42,9 @@
       </div>
     </div>
 
+    <div id="message" class="result"></div>
+</div>
 
-<script>
-
-const SUITS = ['♠','♥','♦','♣'];
-const SUIT_CLASS = {'♠':'black','♣':'black','♥':'red','♦':'red'};
-const VALUES = [2,3,4,5,6,7,8,9,10,11,12,13,14];
-
-function createDeck(){ const deck=[]; for(const s of SUITS){ for(const v of VALUES){ deck.push({v,s}) } } return deck;}
-function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function cardLabel(c){const v=c.v===14?'A':c.v===13?'K':c.v===12?'Q':c.v===11?'J':c.v; return v+c.s;}
-
-const dealBtn=document.getElementById("dealBtn"),drawBtn=document.getElementById("drawBtn"),newBtn=document.getElementById("newBtn");
-const playerHandDiv=document.getElementById("playerHand"),cpuHandDiv=document.getElementById("cpuHand"),messageDiv=document.getElementById("message");
-const playerEvalDiv=document.getElementById("playerEval"),cpuEvalDiv=document.getElementById("cpuEval");
-
-let deck=[],playerHand=[],cpuHand=[],held=[false,false,false,false,false],stage='ready';
-
-function reset(){deck=shuffle(createDeck());playerHand=[];cpuHand=[];held=[0,0,0,0,0];stage='ready';
-playerHandDiv.innerHTML='';cpuHandDiv.innerHTML='';messageDiv.textContent='';playerEvalDiv.textContent='';cpuEvalDiv.textContent='';
-drawBtn.disabled=true;newBtn.disabled=true;dealBtn.disabled=false;}
-
-function renderHand(div,hand,int=false){
-div.innerHTML='';
-hand.forEach((c,i)=>{const el=document.createElement("div");el.className="card suit "+(SUIT_CLASS[c.s]||"");
-el.innerHTML=`<div>${cardLabel(c)}</div><div style="font-size:28px;text-align:center">${c.s}</div><div style="text-align:right">${cardLabel(c)}</div>`;
-if(int){if(held[i])el.classList.add("held");el.onclick=()=>{if(stage!=='dealt')return;held[i]=!held[i];renderHand(playerHandDiv,playerHand,true);};}
-div.appendChild(el);});
-}
-
-function deal(){reset();for(let i=0;i<5;i++)playerHand.push(deck.pop());for(let i=0;i<5;i++)cpuHand.push(deck.pop());
-stage='dealt';renderHand(playerHandDiv,playerHand,true);cpuHandDiv.innerHTML="??? ??? ??? ??? ???";drawBtn.disabled=false;dealBtn.disabled=true;}
-
-function draw(){for(let i=0;i<5;i++)if(!held[i])playerHand[i]=deck.pop();
-cpuHand.sort(()=>Math.random()-0.5);for(let i=0;i<Math.floor(Math.random()*3)+1;i++)cpuHand[i]=deck.pop();
-stage='done';renderHand(playerHandDiv,playerHand);renderHand(cpuHandDiv,cpuHand);drawBtn.disabled=true;newBtn.disabled=false;check();}
-
-function check(){
-function val(h){return h.map(c=>c.v).sort((a,b)=>b-a).join('-');}
-playerEvalDiv.textContent="Jugador: "+val(playerHand);
-cpuEvalDiv.textContent="CPU: "+val(cpuHand);
-messageDiv.textContent="Resultado: (evaluación simple)";
-}
-dealBtn.onclick=deal;drawBtn.onclick=draw;newBtn.onclick=()=>reset();
-reset();
-</script>
-
-
-
-
-
-
-    
+<script src="JS/poker.js"></script>
 </body>
 </html>
