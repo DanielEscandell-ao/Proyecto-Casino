@@ -200,7 +200,7 @@ function calcularGanancias(num, color) {
   balanceEl.textContent = `💰 Balance: $${balance}`;
   resultado.innerHTML = `
     Ha caído en <b style="color:${color}">${num}</b> (${color})<br>
-    ${ganancia > 0 ? `🎉 Ganaste $${ganancia}!` : "😢 No ganaste esta vez."}
+    ${ganancia > 0 ? `Ganaste $${ganancia}!` : "No ganaste esta vez."}
   `;
   apuestas = [];
   const fichas = document.querySelectorAll(".ficha-apuesta");
