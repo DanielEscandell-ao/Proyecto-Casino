@@ -23,14 +23,33 @@ html, body{
     font-size: 1em;
 }
 
-.boton3{
+.boton3 {
     background-color: rgb(18, 170, 205);
     color: white;
     font-size: 1em;
 }
 
-.div1{
+.div1 {
     text-align: center;
     padding: 20px;
+    font-size: 1.5em;
+}
+
+.carta {
+    width: 100px;
+    position: relative;
+    left: 100px;
+    margin-left: -75px;
+    padding-top: 15px;
+}
+
+#banca-cartas, #jugador-cartas {
+    height: 220px;
+}
+
+#ganador {
+    text-align: center;
+    font-weight: bold;
+    color:cornflowerblue;
     font-size: 1.5em;
 }
