@@ -1,49 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Póker</title>
     <link rel="stylesheet" href="CSS/poker.css">
 </head>
 <body>
 
-<div class="titulo">
-    <h1><strong>POKER</strong></h1> 
-</div>
+<header class="header">
+    <h1>♠️ PÓKER ♠️</h1>
+    <nav class="nav-links">
+        <a href="proyecto.html">Menú</a>
+        <a href="blackjack.html">Blackjack</a>
+        <a href="ruleta.html">Ruleta</a>
+        <a href="slots.html">Slots</a>
+    </nav>
+</header>
 
-<div class="links">
-<a href="proyecto.html">Menu</a>
-<a href="blackjack.html">Blackjack</a>
-<a href="ruleta.html">Ruleta</a>
-<a href="slots.html">Slots</a>
-</div>
+<main class="table-container">
+    <div class="table">
+        <div class="controls">
+            <button id="dealBtn" class="btn">Repartir</button>
+            <button id="drawBtn" class="btn" disabled>Cambiar</button>
+            <button id="newBtn" class="btn" disabled>Nueva mano</button>
+     
+        </div>
 
+        <div class="players">
+            <div class="player">
+                <div class="label">Jugador</div>
+                <div id="playerHand" class="hand"></div>
+                <div id="playerEval" class="status"></div>
+            </div>
 
-<div class="table" id="table">
-    <div class="controls">
-      <button id="dealBtn">Repartir</button>
-      <button id="drawBtn" disabled>Cambiar</button>
-      <button id="newBtn" disabled>Nueva mano</button>
-      <div style="margin-left:auto" class="label">Juegas contra la CPU</div>
+            <div class="player">
+                <div class="label">CPU</div>
+                <div id="cpuHand" class="hand"></div>
+                <div id="cpuEval" class="status"></div>
+            </div>
+        </div>
+
+        <div id="message" class="result"></div>
     </div>
-
-    <div class="row">
-      <div>
-        <div class="label">Jugador</div>
-        <div id="playerHand" class="hand"></div>
-        <div id="playerEval" class="status"></div>
-      </div>
-      
-      <div>
-        <div class="label">CPU</div>
-        <div id="cpuHand" class="hand"></div>
-        <div id="cpuEval" class="status"></div>
-      </div>
-    </div>
-
-    <div id="message" class="result"></div>
-</div>
+</main>
 
 <script src="JS/poker.js"></script>
 </body>

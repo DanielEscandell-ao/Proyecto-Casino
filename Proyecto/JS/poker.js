@@ -48,12 +48,22 @@ function reset(){
   dealBtn.disabled=false;
 }
 
+// Renderizado de cartas con color
 function render(hand,div,interactive=false){
   div.innerHTML="";
   hand.forEach((c,i)=>{
     let el=document.createElement("div");
     el.className="card";
+
+    // Asignar color según palo
+    if(c.s === '♥' || c.s === '♦'){
+      el.classList.add("red");
+    } else {
+      el.classList.add("black");
+    }
+
     el.textContent = cardText(c);
+
     if(interactive){
       if(held[i]) el.classList.add("held");
       el.onclick=()=>{
@@ -82,7 +92,6 @@ function draw(){
     if(!held[i]) playerHand[i]=deck.pop();
   }
 
- 
   cpuHand.sort(()=>Math.random()-0.5);
   for(let i=0;i<Math.floor(Math.random()*3)+1;i++) cpuHand[i]=deck.pop();
 
@@ -95,7 +104,6 @@ function draw(){
 
   pEval.textContent="Jugador: " + playerHand.map(cardText).join(" ");
   cEval.textContent="CPU: " + cpuHand.map(cardText).join(" ");
-  msg.textContent="(Resultado básico mostrado)";
 }
 
 dealBtn.onclick=deal;
