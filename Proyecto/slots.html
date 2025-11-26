@@ -3,110 +3,79 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Slots</title>
-  <link rel="stylesheet" href="../Proyecto/CSS/slots.css" />
-  <script src="../Proyecto/JS/slots.js" defer></script>
+  <title>Slots Casino</title>
+
+  <link rel="stylesheet" href="/Proyecto/CSS/slots.css" />
+  <script src="/Proyecto/JS/slots.js" defer></script>
 </head>
+
 <body>
+
+  <!-- ===== Enlaces superiores ===== -->
   <div class="links">
-        <div class="inicio">
-            <a href="proyecto.html">Inicio</a>
-        </div>
-        <div class="blackjack">
-            <a href="blackjack.html">Blackjack</a>
-        </div>
-        <div class="poker">
-            <a href="poker.html">Poker</a>
-        </div>
-        <div class="ruleta">
-            <a href="ruleta.html">Ruleta</a>
-        </div>
-    </div>
-  <main class="app" aria-label="Máquina tragamonedas">
+    <a href="proyecto.html">Inicio</a>
+    <a href="blackjack.html">Blackjack</a>
+    <a href="poker.html">Poker</a>
+    <a href="ruleta.html">Ruleta</a>
+  </div>
+
+  <!-- ===== Contenido principal ===== -->
+  <main class="app">
+
     <header class="topbar">
       <h1 class="brand">Slots</h1>
-      <div class="balance" aria-live="polite">
+      <div class="balance">
         Saldo: <strong id="balance">1000</strong> créditos
       </div>
     </header>
 
-    <!-- Pantalla principal -->
-    <section class="slot" role="group" aria-label="Rodillos">
-      <div class="reel" aria-label="Rodillo 1">
+    <!-- ===== Rodillos ===== -->
+    <section class="slot">
+      <div class="reel">
         <span class="symbol">🍒</span>
         <span class="symbol">🍋</span>
         <span class="symbol">🔔</span>
       </div>
-      <div class="reel" aria-label="Rodillo 2">
+      <div class="reel">
         <span class="symbol">🍒</span>
         <span class="symbol">⭐</span>
         <span class="symbol">🍀</span>
       </div>
-      <div class="reel" aria-label="Rodillo 3">
+      <div class="reel">
         <span class="symbol">🍇</span>
         <span class="symbol">7️⃣</span>
         <span class="symbol">🍋</span>
       </div>
     </section>
 
-    <!-- Controles -->
-    <section class="controls" aria-label="Controles de apuesta">
+    <!-- ===== Controles ===== -->
+    <section class="controls">
+
       <div class="bet">
-        <label for="bet" class="bet__label">Apuesta</label>
+        <label>Apuesta</label>
         <div class="bet__group">
-          <button class="btn btn--ghost" id="betMinus" aria-label="Bajar apuesta">−</button>
-          <input id="bet" class="bet__input" type="number" min="1" max="100" step="1" value="10" inputmode="numeric" />
-          <button class="btn btn--ghost" id="betPlus" aria-label="Subir apuesta">+</button>
+          <button class="btn btn--ghost" id="betMinus">−</button>
+          <input id="bet" class="bet__input" type="number" value="10" min="1" max="100">
+          <button class="btn btn--ghost" id="betPlus">+</button>
         </div>
       </div>
 
       <div class="actions">
-        <button class="btn btn--secondary" id="autoSpin" aria-pressed="false">Automático</button>
+        <button class="btn btn--secondary" id="autoSpin">Automático</button>
         <button class="btn btn--primary" id="spin">GIRAR</button>
-        <button class="btn" id="mute" aria-pressed="false" title="Silenciar/Activar sonido">🔊 Sonido</button>
+        <button class="btn" id="mute">🔊 Sonido</button>
       </div>
     </section>
 
-    <!-- Panel de mensajes -->
-    <section class="message" aria-live="polite" id="message">
+    <!-- ===== Mensaje ===== -->
+    <section class="message" id="message">
       ¡Bienvenido! Ajusta tu apuesta y pulsa GIRAR.
     </section>
 
-    <!-- Tabla de premios -->
-    <section class="paytable" aria-label="Tabla de premios">
-      <h2>Tabla de premios</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Combinación</th>
-            <th>Pago × apuesta</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>7️⃣ 7️⃣ 7️⃣</td>
-            <td>×100</td>
-          </tr>
-          <tr>
-            <td>⭐ ⭐ ⭐</td>
-            <td>×40</td>
-          </tr>
-          <tr>
-            <td>🔔 🔔 🔔</td>
-            <td>×20</td>
-          </tr>
-          <tr>
-            <td>🍀 🍀 🍀</td>
-            <td>×10</td>
-          </tr>
-          <tr>
-            <td>Cualquier triple de fruta</td>
-            <td>×5</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <footer class="footer">
-    </footer>
   </main>
+
+  <!-- Contenedor donde aparecerán monedas -->
+  <div id="coinExplosion"></div>
+
+</body>
+</html>
