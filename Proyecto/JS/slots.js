@@ -1,185 +1,10 @@
-// --- Configuración básica ---
-const SYMBOLS = ["🍒", "🍋", "🍇", "🔔", "⭐", "🍀", "7️⃣"];
-const FRUITS = new Set(["🍒", "🍋", "🍇"]); // para "cualquier triple de fruta"
-const PAYOUTS = {
-  "7️⃣": 100,
-  "⭐": 40,
-  "🔔": 20,
-  "🍀": 10,
-  // cualquier triple fruta => 5 (se calcula aparte)
-};
-const SPIN_MS = 1200; // duración del giro (ms)
-
-// --- Elementos del DOM ---
-const reels = Array.from(document.querySelectorAll(".reel"));
-const btnSpin = document.getElementById("spin");
-const btnAuto = document.getElementById("autoSpin");
-const betInput = document.getElementById("bet");
-const betMinus = document.getElementById("betMinus");
-const betPlus = document.getElementById("betPlus");
-const balanceEl = document.getElementById("balance");
-const messageEl = document.getElementById("message");
-
-let spinning = false;
-let autoTimer = null;
-
-// --- Utilidades ---
-const readBalance = () => parseInt(balanceEl.textContent.trim(), 10) || 0;
-const writeBalance = (v) => (balanceEl.textContent = String(v));
-
-function randSymbol() {
-  return SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
-}
-function reelResult() {
-  // Devuelve 3 símbolos para un rodillo
-  return [randSymbol(), randSymbol(), randSymbol()];
-}
-function renderReel(reelEl, symbols) {
-  reelEl.innerHTML = ""; // limpia el contenido
-  for (const s of symbols) {
-    const span = document.createElement("span");
-    span.className = "symbol";
-    span.textContent = s;
-    reelEl.appendChild(span);
-  }
-}
-function setMessage(text) {
-  messageEl.textContent = text;
-}
-function clampBet() {
-  const min = parseInt(betInput.min || "1", 10);
-  const max = parseInt(betInput.max || "100", 10);
-  let val = parseInt(betInput.value || String(min), 10);
-  if (isNaN(val)) val = min;
-  val = Math.max(min, Math.min(max, val));
-  betInput.value = String(val);
-  return val;
+/* ========= SONIDOS ========= */
+function loadAudio(src) {
+  const a = new Audio(src);
+  a.preload = "auto";
+  return a;
 }
 
-function calcPayout([a, b, c], bet) {
-  // Devuelve {mult, prize}
-  if (a === b && b === c) {
-    const sym = a;
-    let mult = PAYOUTS[sym] || 0;
-    if (!mult && FRUITS.has(sym)) mult = 5; // triple fruta
-    const prize = mult * bet;
-    return { mult, prize };
-  }
-  return { mult: 0, prize: 0 };
-}
-
-function disableControls(disabled) {
-  btnSpin.disabled = disabled;
-  btnAuto.disabled = disabled && !btnAuto.classList.contains("active"); // si Auto activo, no lo deshabilitamos
-  betInput.disabled = disabled;
-  betMinus.disabled = disabled;
-  betPlus.disabled = disabled;
-}
-
-// --- Lógica principal de giro ---
-async function spinOnce() {
-  if (spinning) return;
-  clampBet();
-
-  const bet = parseInt(betInput.value, 10);
-  let balance = readBalance();
-
-  if (bet > balance) {
-    setMessage("Saldo insuficiente. Baja la apuesta o recarga saldo.");
-    return;
-  }
-
-  spinning = true;
-  disableControls(true);
-
-  // Cobrar apuesta
-  balance -= bet;
-  writeBalance(balance);
-
-  // activar animación
-  reels.forEach((r) => r.classList.add("spinning"));
-
-  // Espera la duración del giro
-  await new Promise((res) => setTimeout(res, SPIN_MS));
-
-  // Generar resultados y mostrarlos
-  const results = reels.map(() => reelResult().map(String));
-  results.forEach((syms, idx) => renderReel(reels[idx], syms.map(String)));
-
-  // parar animación
-  reels.forEach((r) => r.classList.remove("spinning"));
-
-  // Evaluar pago: para esta UI tomamos la fila central (símbolo 2 de cada rodillo)
-  const line = results.map((col) => col[1]); // [mid1, mid2, mid3]
-  const { mult, prize } = calcPayout(line, bet);
-
-  balance += prize;
-  writeBalance(balance);
-
-  if (mult > 0) {
-    setMessage(`¡Ganaste ×${mult}! Premio: ${prize} — Línea: ${line.join(" ")}`);
-  } else {
-    setMessage(`Sin premio. Línea: ${line.join(" ")}`);
-  }
-
-  spinning = false;
-  disableControls(false);
-
-  // cortar Auto si no hay saldo
-  if (btnAuto.classList.contains("active") && bet > balance) {
-    toggleAuto(false);
-    setMessage("Auto detenido por saldo insuficiente.");
-  }
-}
-
-// --- Auto giro ---
-function toggleAuto(forceOff = null) {
-  const willEnable = forceOff === null ? !btnAuto.classList.contains("active") : !forceOff;
-
-  if (willEnable) {
-    btnAuto.classList.add("active");
-    btnAuto.setAttribute("aria-pressed", "true");
-    btnAuto.textContent = "Auto (ON)";
-    // Lanza un giro y luego intervalos encadenados
-    const loop = async () => {
-      if (!btnAuto.classList.contains("active")) return;
-      await spinOnce();
-      // espera un pequeño margen entre giros
-      autoTimer = setTimeout(loop, 350);
-    };
-    loop();
-  } else {
-    btnAuto.classList.remove("active");
-    btnAuto.setAttribute("aria-pressed", "false");
-    btnAuto.textContent = "Automático";
-    if (autoTimer) clearTimeout(autoTimer);
-    autoTimer = null;
-  }
-}
-
-// --- Listeners de UI ---
-btnSpin.addEventListener("click", () => {
-  // si Auto está activo, un clic manual hace un solo giro adicional sin quitar el auto
-  spinOnce();
-});
-
-btnAuto.addEventListener("click", () => toggleAuto());
-
-betMinus.addEventListener("click", () => {
-  betInput.value = String(Math.max(parseInt(betInput.min || "1", 10), clampBet() - 1));
-});
-betPlus.addEventListener("click", () => {
-  betInput.value = String(Math.min(parseInt(betInput.max || "100", 10), clampBet() + 1));
-});
-betInput.addEventListener("input", clampBet);
-
-// Render inicial “bonito” (rellena cada rodillo con 3 símbolos al cargar)
-(function initialFill() {
-  reels.forEach((reel) => renderReel(reel, reelResult()));
-  setMessage("¡Bienvenido! Ajusta tu apuesta y pulsa GIRAR.");
-})();
-
-// Sonidos del Slot //
 const sounds = {
   click: loadAudio("audio/click.mp3"),
   spin:  loadAudio("audio/spin.mp3"),
@@ -187,3 +12,190 @@ const sounds = {
   win:   loadAudio("audio/win.mp3"),
   lose:  loadAudio("audio/lose.mp3"),
 };
+
+
+/* ========= VARIABLES ========= */
+const SYMBOLS = ["🍒","🍋","🍇","🔔","⭐","🍀","7️⃣"];
+const reels = [...document.querySelectorAll(".reel")];
+
+const balanceEl = document.getElementById("balance");
+const betInput = document.getElementById("bet");
+const messageEl = document.getElementById("message");
+
+const btnSpin = document.getElementById("spin");
+const btnAuto = document.getElementById("autoSpin");
+
+let spinning = false;
+let autoTimer = null;
+
+
+/* ========= UTILIDADES ========= */
+function randSym() {
+  return SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
+}
+
+function renderReel(reel, arr) {
+  reel.innerHTML = "";
+  arr.forEach(s => {
+    const span = document.createElement("span");
+    span.className = "symbol";
+    span.textContent = s;
+    reel.appendChild(span);
+  });
+}
+
+
+/* ========= TEXTO GIGANTE DE VICTORIA ========= */
+function showBigWin() {
+  let banner = document.getElementById("bigWinBanner");
+
+  if (!banner) {
+    banner = document.createElement("div");
+    banner.id = "bigWinBanner";
+    document.body.appendChild(banner);
+  }
+
+  banner.className = "big-win-text";
+  banner.textContent = "¡GANASTE!";
+
+  // Quitar la animación después para permitir repetirla
+  setTimeout(() => {
+    banner.className = "";
+    banner.style.opacity = "0";
+  }, 1500);
+}
+
+
+/* ========= EXPLOSIÓN DE MONEDAS ========= */
+function explodeCoins() {
+  const container = document.getElementById("coinExplosion");
+
+  for (let i = 0; i < 16; i++) {
+    const coin = document.createElement("div");
+    coin.className = "coin";
+
+    // Posición inicial (centro pantalla)
+    const startX = window.innerWidth / 2;
+    const startY = window.innerHeight / 2 - 100;
+
+    coin.style.left = startX + "px";
+    coin.style.top  = startY + "px";
+
+    // Dirección aleatoria
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 120 + Math.random() * 180;
+
+    const xOff = Math.cos(angle) * distance;
+    const yOff = Math.sin(angle) * distance;
+
+    coin.animate([
+      { transform: `translate(0,0) scale(1)`, opacity: 1 },
+      { transform: `translate(${xOff}px, ${yOff}px) scale(0.3)`, opacity: 0 }
+    ], { duration: 900, easing: "ease-out" });
+
+    container.appendChild(coin);
+
+    setTimeout(() => coin.remove(), 900);
+  }
+}
+
+
+/* ========= GIRO PRINCIPAL ========= */
+async function spinOnce() {
+  if (spinning) return;
+
+  const bet = parseInt(betInput.value);
+  let balance = parseInt(balanceEl.textContent);
+
+  if (bet > balance) {
+    messageEl.textContent = "Saldo insuficiente";
+    return;
+  }
+
+  spinning = true;
+  balanceEl.textContent = balance - bet;
+
+  sounds.spin.play();
+
+  const intervals = [];
+
+  reels.forEach((reel, i) => {
+    reel.classList.add("spinning");
+    intervals[i] = setInterval(() => {
+      renderReel(reel, [randSym(), randSym(), randSym()]);
+    }, 70 + i * 25);
+  });
+
+  await new Promise(r => setTimeout(r, 1200));
+
+  const final = [];
+  for (let i = 0; i < reels.length; i++) {
+    clearInterval(intervals[i]);
+    await new Promise(r => setTimeout(r, 180));
+
+    const res = [randSym(), randSym(), randSym()];
+    final.push(res);
+    renderReel(reels[i], res);
+    reels[i].classList.remove("spinning");
+
+    sounds.stop.play();
+  }
+
+  const line = final.map(col => col[1]);
+  const sym = line[0];
+
+  let mult = 0;
+  if (line.every(s => s === sym)) {
+    if (sym === "7️⃣") mult = 100;
+    else if (sym === "⭐") mult = 40;
+    else if (sym === "🔔") mult = 20;
+    else if (sym === "🍀") mult = 10;
+    else if (["🍒","🍋","🍇"].includes(sym)) mult = 5;
+  }
+
+  const prize = mult * bet;
+  balanceEl.textContent = parseInt(balanceEl.textContent) + prize;
+
+  if (mult > 0) {
+    sounds.win.play();
+
+    reels.forEach(r => r.classList.add("win-flash"));
+    setTimeout(() => reels.forEach(r => r.classList.remove("win-flash")), 700);
+
+    showBigWin();
+    explodeCoins();
+
+    messageEl.textContent = `¡Ganaste ×${mult}! ${line.join(" ")}`;
+  } else {
+    sounds.lose.play();
+    messageEl.textContent = `Sin premio: ${line.join(" ")}`;
+  }
+
+  spinning = false;
+
+  if (btnAuto.classList.contains("active")) {
+    if (parseInt(balanceEl.textContent) >= bet) {
+      autoTimer = setTimeout(spinOnce, 350);
+    } else {
+      btnAuto.classList.remove("active");
+      messageEl.textContent = "Auto detenido (sin saldo)";
+    }
+  }
+}
+
+
+/* ========= EVENTOS ========= */
+btnSpin.onclick = spinOnce;
+
+btnAuto.onclick = () => {
+  btnAuto.classList.toggle("active");
+  if (btnAuto.classList.contains("active")) {
+    spinOnce();
+  }
+};
+
+document.getElementById("betMinus").onclick = () =>
+  betInput.value = Math.max(1, betInput.value - 1);
+
+document.getElementById("betPlus").onclick = () =>
+  betInput.value = Math.min(100, parseInt(betInput.value) + 1);
