@@ -4,7 +4,9 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+a {
+  text-decoration: none;
+}
 body {
   font-family: 'Poppins', sans-serif;
   background: radial-gradient(circle at top, #1a1a1a, #000);
@@ -90,9 +92,8 @@ h4 {
 }
 
 /* ======== CONTENEDOR DE JUEGOS ======== */
-body > div:nth-of-type(n+3) {
-  display: inline-block;
-  width: 22%;
+.juegos {
+  width: 80%;
   margin: 2%;
   text-align: center;
   background: rgba(255, 255, 255, 0.05);
@@ -101,7 +102,7 @@ body > div:nth-of-type(n+3) {
   transition: transform 0.3s ease, background 0.3s ease;
 }
 
-body > div:nth-of-type(n+3):hover {
+.juegos:hover {
   transform: translateY(-8px);
   background: rgba(255, 215, 0, 0.1);
 }
@@ -136,4 +137,11 @@ body > div:nth-of-type(n+3):hover {
   h2 {
     font-size: 1.5rem;
   }
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  row-gap: 50px; 
+  column-gap: 100px;
+  margin-left: 150px;
 }
