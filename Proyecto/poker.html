@@ -3,14 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Póker</title>
+    <title>Póker Online</title>
+
+ 
     <link rel="stylesheet" href="CSS/poker.css">
+
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
 <header class="header">
-    <h1>♠️ PÓKER ♠️</h1>
-    <nav class="nav-links">
+    <h1 class="title">♠️ PÓKER ONLINE</h1>
+
+    <nav class="nav">
         <a href="proyecto.html">Menú</a>
         <a href="blackjack.html">Blackjack</a>
         <a href="ruleta.html">Ruleta</a>
@@ -18,33 +25,51 @@
     </nav>
 </header>
 
-<main class="table-container">
-    <div class="table">
-        <div class="controls">
-            <button id="dealBtn" class="btn">Repartir</button>
-            <button id="drawBtn" class="btn" disabled>Cambiar</button>
-            <button id="newBtn" class="btn" disabled>Nueva mano</button>
-     
-        </div>
+<main class="game-area">
 
-        <div class="players">
-            <div class="player">
-                <div class="label">Jugador</div>
+  
+    <section class="poker-table" aria-label="Mesa de póker">
+
+        <!-- Contenedor para animaciones (fichas, efectos, etc.) -->
+        <div id="animationLayer" class="animation-layer"></div>
+
+        <!-- Cartas comunitarias (si agregas Texas Hold’em después) -->
+        <div id="communityCards" class="community-cards hidden"></div>
+
+        <!-- Jugadores -->
+        <div class="players-area">
+
+            <div class="player player-main">
+                <h2 class="player-name">Jugador</h2>
                 <div id="playerHand" class="hand"></div>
                 <div id="playerEval" class="status"></div>
+                <div class="chips" id="playerChips"></div>
             </div>
 
-            <div class="player">
-                <div class="label">CPU</div>
+            <div class="player player-opponent">
+                <h2 class="player-name">CPU</h2>
                 <div id="cpuHand" class="hand"></div>
                 <div id="cpuEval" class="status"></div>
+                <div class="chips" id="cpuChips"></div>
             </div>
+
         </div>
 
-        <div id="message" class="result"></div>
-    </div>
+        <!-- Controles -->
+        <div class="controls">
+            <button id="dealBtn" class="btn primary">Repartir</button>
+            <button id="drawBtn" class="btn" disabled>Cambiar</button>
+            <button id="newBtn" class="btn" disabled>Nueva Mano</button>
+        </div>
+
+        <!-- Mensajes del sistema -->
+        <div id="message" class="message"></div>
+
+    </section>
 </main>
 
-<script src="JS/poker.js"></script>
+<!-- Scripts -->
+<script src="JS/poker.js" type="module"></script>
+
 </body>
 </html>
