@@ -2,8 +2,8 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Montserrat', sans-serif;
-  background: radial-gradient(circle at center, #4d0000 0%, #1a0000 50%, #000000 90%);
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top, #1a1a1a, #000);
   color: #fff;
 }
 
@@ -13,8 +13,8 @@ body {
   justify-content: center;
   gap: 30px;
   padding: 15px;
-  background: #2a0000;
-  border-bottom: 3px solid #b30000;
+  background: linear-gradient(90deg, #000, #1a1a1a);
+  border-bottom: 2px solid #ff1100ff;
   box-shadow: 0 0 15px #ff000050;
 }
 
