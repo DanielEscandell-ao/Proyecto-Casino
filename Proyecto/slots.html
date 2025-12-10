@@ -1,86 +1,90 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Slots Casino</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Slots Casino</title>
 
-  <link rel="stylesheet" href="/Proyecto/CSS/slots.css" />
-  <script src="/Proyecto/JS/slots.js" defer></script>
-</head>
+    <link rel="stylesheet" href="/Proyecto/CSS/slots.css" />
+    <script src="/Proyecto/JS/slots.js" defer></script>
+  </head>
 
-<body>
-
-  <!-- ===== Enlaces superiores ===== -->
-  <div class="links">
-    <a href="proyecto.html">Inicio</a>
-    <a href="blackjack.html">Blackjack</a>
-    <a href="poker.html">Poker</a>
-    <a href="ruleta.html">Ruleta</a>
-  </div>
-
-  <!-- ===== Contenido principal ===== -->
-  <main class="app">
-
-    <header class="topbar">
-      <h1 class="brand">Slots</h1>
-      <div class="balance">
-        Saldo: <strong id="balance">1000</strong> créditos
+  <body>
+    <div class="links">
+      <div class="inicio">
+        <a href="proyecto.html">Inicio</a>
       </div>
-    </header>
-
-    <!-- ===== Rodillos ===== -->
-    <section class="slot">
-      <div class="reel">
-        <span class="symbol">🍒</span>
-        <span class="symbol">🍋</span>
-        <span class="symbol">🔔</span>
+      <div class="blackjack">
+        <a href="blackjack.html">Blackjack</a>
       </div>
-      <div class="reel">
-        <span class="symbol">🍒</span>
-        <span class="symbol">⭐</span>
-        <span class="symbol">🍀</span>
+      <div class="poker">
+        <a href="poker.html">Poker</a>
       </div>
-      <div class="reel">
-        <span class="symbol">🍇</span>
-        <span class="symbol">7️⃣</span>
-        <span class="symbol">🍋</span>
+      <div class="slots">
+        <a href="slots.html">Slots</a>
       </div>
-    </section>
-
-    <!-- ===== Controles ===== -->
-    <section class="controls">
-
-      <div class="bet">
-        <label>Apuesta</label>
-        <div class="bet__group">
-          <button class="btn btn--ghost" id="betMinus">−</button>
-          <input id="bet" class="bet__input" type="number" value="10" min="1" max="100">
-          <button class="btn btn--ghost" id="betPlus">+</button>
+      <div class="ruleta">
+        <a href="ruleta.html">Ruleta</a>
+      </div>
+    </div>
+    <div>
+      <h1>El Gran Casino</h1>
+      <h2>de Montepinar</h2>
+    </div>
+    <main class="app">
+      <header class="topbar">
+        <h1 class="brand">Slots</h1>
+        <div class="balance">
+          Saldo: <strong id="balance">1000</strong> créditos
         </div>
-      </div>
+      </header>
+      <section class="slot">
+        <div class="reel">
+          <span class="symbol">🍒</span>
+          <span class="symbol">🍋</span>
+          <span class="symbol">🔔</span>
+        </div>
+        <div class="reel">
+          <span class="symbol">🍒</span>
+          <span class="symbol">⭐</span>
+          <span class="symbol">🍀</span>
+        </div>
+        <div class="reel">
+          <span class="symbol">🍇</span>
+          <span class="symbol">7️⃣</span>
+          <span class="symbol">🍋</span>
+        </div>
+      </section>
+      <section class="controls">
+        <div class="bet">
+          <label>Apuesta</label>
+          <div class="bet__group">
+            <button class="btn btn--ghost" id="betMinus">−</button>
+            <input
+              id="bet"
+              class="bet__input"
+              type="number"
+              value="10"
+              min="1"
+              max="100"
+            />
+            <button class="btn btn--ghost" id="betPlus">+</button>
+          </div>
+        </div>
 
-      <div class="actions">
-        <button class="btn btn--secondary" id="autoSpin">Automático</button>
-        <button class="btn btn--primary" id="spin">GIRAR</button>
-        <button class="btn" id="mute">🔊 Sonido</button>
-      </div>
-    </section>
-
-    <!-- ===== Mensaje ===== -->
-    <section class="message" id="message">
-      ¡Bienvenido! Ajusta tu apuesta y pulsa GIRAR.
-    </section>
-
-  </main>
-
-  <!-- Contenedor donde aparecerán monedas -->
-  <div id="coinExplosion"></div>
-
-  <!-- ===== Audios ===== -->
-  <audio id="bgMusic" src="/Proyecto/Audios/Slots/fondo.mp3" loop></audio>
-  <audio id="spinSound" src="/Proyecto/Audios/Slots/apuesta.mp3"></audio>
-  <audio id="betSound" src="/Proyecto/Audios/Slots/ganas.mp3"></audio>
-
-</body>
+        <div class="actions">
+          <button class="btn btn--secondary" id="autoSpin">Automático</button>
+          <button class="btn btn--primary" id="spin">GIRAR</button>
+          <button class="btn" id="mute">🔊 Sonido</button>
+        </div>
+      </section>
+      <section class="message" id="message">
+        ¡Bienvenido! Ajusta tu apuesta y pulsa GIRAR.
+      </section>
+    </main>
+    <div id="coinExplosion"></div>
+    <audio id="bgMusic" src="/Proyecto/Audios/Slots/fondo.mp3" loop></audio>
+    <audio id="spinSound" src="/Proyecto/Audios/Slots/apuesta.mp3"></audio>
+    <audio id="betSound" src="/Proyecto/Audios/Slots/ganas.mp3"></audio>
+  </body>
 </html>

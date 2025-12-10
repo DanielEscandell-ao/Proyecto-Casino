@@ -1,43 +1,60 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Juego de Black Jack</title>
-    <link rel="stylesheet" href="CSS/blackjack.css">
-</head>
-<body>
-    <header class="Cabecera">Black Jack</header>
+    <link rel="stylesheet" href="CSS/blackjack.css" />
+  </head>
+  <body>
+    <div class="links">
+      <div class="inicio">
+        <a href="proyecto.html">Inicio</a>
+      </div>
+      <div class="blackjack">
+        <a href="blackjack.html">Blackjack</a>
+      </div>
+      <div class="poker">
+        <a href="poker.html">Poker</a>
+      </div>
+      <div class="slots">
+        <a href="slots.html">Slots</a>
+      </div>
+      <div class="ruleta">
+        <a href="ruleta.html">Ruleta</a>
+      </div>
+    </div>
+    <div class="titulo">
+      <h1>El Gran Casino</h1>
+      <h2>de Montepinar</h2>
+    </div>
     <main>
-        <div class="row mt-2">
-            <div class="div1">
-                <button class="boton1">Nuevo Juego</button>
-                <button class="boton2">Pedir carta</button>
-                <button class="boton3">Pasar</button>
-            </div>
+      <div class="row mt-2">
+        <div class="div1">
+          <button class="boton1">Nuevo Juego</button>
+          <button class="boton2">Pedir</button>
+          <button class="boton3">Plantarse</button>
         </div>
-        <div class="row container">
-            <div class="col">
-                <h1>Jugador 1 - <small>0</small></h1>
-                    <div id="jugador-cartas">
-                        <img class="carta" src="Imagenes/carta1.png" />
-                    </div>
-            </div>
+      </div>
+      <div class="row container">
+        <div class="col">
+          <h1>Tu - <small></small></h1>
+          <div id="jugador-cartas">
+            <img class="carta" src="" />
+          </div>
         </div>
-        <div class="row container">
-            <div class="col">
-                <h1>Banca - <small>0</small></h1>
-                    <div id="banca-cartas">
-                        <img class="carta" src="Imagenes/carta2.png" />
-                    </div>
-            </div>
+      </div>
+      <div class="row container">
+        <div class="col">
+          <h1>Banca - <small></small></h1>
+          <div id="banca-cartas">
+            <img class="carta" src="" />
+          </div>
         </div>
-        <div id="ganador">Ganador</div>
+      </div>
+      <div id="ganador"></div>
     </main>
-    <footer class="footer">
-        <p>Raúl Sánchez Lucas</p>
-    </footer>
     <script src="JS/underscore.js"></script>
     <script src="JS/blackjack.js"></script>
-</body>
+  </body>
 </html>

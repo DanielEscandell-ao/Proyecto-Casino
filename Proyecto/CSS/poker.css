@@ -1,55 +1,68 @@
-/* =========================================================
-   RESET Y BASE
-   ========================================================= */
+/* ======== ESTILOS GENERALES ======== */
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-
+a {
+  text-decoration: none;
+}
 body {
-    background: radial-gradient(circle at center, #320000 0%, #120000 100%);
-    font-family: "Montserrat", sans-serif;
-    color: #fff;
-    text-align: center;
-    overflow-x: hidden;
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top, #1a1a1a, #000);
+  color: #f5f5f5;
+  overflow-x: hidden;
+  text-align: center;
 }
 
-/* =========================================================
-   HEADER / MENÚ SUPERIOR
-   ========================================================= */
-.header {
-    background: linear-gradient(to bottom, #000, #1a0000);
-    padding: 20px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.7);
-    border-bottom: 2px solid #660000;
+/* ======== MENÚ DE NAVEGACIÓN ======== */
+.links {
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(90deg, #000, #1a1a1a);
+  border-bottom: 2px solid #ff1100ff;
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-.title {
-    font-size: 48px;
-    color: #ff1b1b;
-    text-shadow: 2px 2px 10px #000, 0 0 15px #b30000;
-    margin-bottom: 10px;
-    letter-spacing: 1px;
+.links div {
+  margin: 0 1.5rem;
 }
 
-.nav {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
+.links a {
+  text-decoration: none;
+  color: #f5f5f5;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
-.nav a {
-    color: #ff4c4c;
-    font-size: 18px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: 0.3s;
+.links a:hover {
+  color: #ff1100ff;
+  transform: scale(1.1);
 }
 
-.nav a:hover {
-    color: #fff;
-    text-shadow: 0 0 10px red;
+/* ======== TÍTULOS PRINCIPALES ======== */
+h1, h2 {
+  text-align: center;
+  margin-top: 1rem;
+  letter-spacing: 3px;
+}
+
+h1 {
+  color: #ff1100ff;
+  font-size: 3rem;
+  text-transform: uppercase;
+  animation: glow 2s infinite alternate;
+}
+
+h2 {
+  color: #fff;
+  font-size: 2rem;
+  margin-bottom: 2rem;
 }
 
 /* =========================================================
@@ -234,3 +247,11 @@ body {
     display: none;
 }
 
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px #ff1100ff, 0 0 20px #ff1100ff;
+  }
+  to {
+    text-shadow: 0 0 25px #ff1100ff, 0 0 50px #ff1100ff;
+  }
+}

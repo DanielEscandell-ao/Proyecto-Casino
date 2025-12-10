@@ -16,19 +16,17 @@ body {
   gap: 40px;
 }
 
-/* ======== MENÚ DE NAVEGACIÓN (IGUAL QUE PORTADA) ======== */
+/* ======== MENÚ DE NAVEGACIÓN ======== */
 .links {
   display: flex;
   justify-content: center;
   background: linear-gradient(90deg, #000, #1a1a1a);
   border-bottom: 2px solid #ff1100ff;
   padding: 1rem 0;
+  position: absolute;
+  width: 100%;
   top: 0;
   z-index: 10;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
 }
 
 .links div {
