@@ -16,7 +16,7 @@ const sounds = {
 
 // Música de fondo
 const bgMusic = document.getElementById("bgMusic");
-bgMusic.volume = 0.3; // 30% del volumen máximo
+bgMusic.volume = 0.1; // 10% del volumen máximo
 let sonidoActivo = true;
 let bgMusicStarted = false;
 
