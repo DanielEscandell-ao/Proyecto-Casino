@@ -1,4 +1,4 @@
-/* ======== ESTILOS GENERALES ======== */
+/* ======== Estilos generales ======== */
 * {
   margin: 0;
   padding: 0;
@@ -14,7 +14,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ======== MENÚ DE NAVEGACIÓN ======== */
+/* ======== Menú de navegación ======== */
 .links {
   display: flex;
   justify-content: center;
@@ -44,7 +44,7 @@ body {
   transform: scale(1.1);
 }
 
-/* ======== TÍTULOS PRINCIPALES ======== */
+/* ======== Títulos principales ======== */
 h1, h2 {
   text-align: center;
   margin-top: 1rem;
@@ -75,7 +75,7 @@ h2 {
   box-shadow: 0 0 25px #ff000050, inset 0 0 20px #300000aa;
 }
 
-/* ====== Header ====== */
+/* ====== Cabecera ====== */
 .topbar {
   display: flex;
   justify-content: space-between;
@@ -215,7 +215,7 @@ h2 {
   text-shadow: 0 0 8px #ff000080;
 }
 
-/* ====== Efecto win ====== */
+/* ====== Efecto al ganar ====== */
 .win-flash {
   animation: flashWin .7s ease-out forwards;
 }
