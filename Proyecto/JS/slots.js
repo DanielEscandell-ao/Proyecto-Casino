@@ -117,6 +117,11 @@ async function spinOnce() {
   const bet = parseInt(betInput.value);
   let balance = parseInt(balanceEl.textContent);
 
+  if (bet <= 0) {
+  messageEl.textContent = "La apuesta mínima es de 1€";
+  return;
+  }
+
   if (bet > balance) {
     messageEl.textContent = "Saldo insuficiente";
     return;
