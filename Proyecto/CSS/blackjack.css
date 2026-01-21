@@ -128,3 +128,82 @@ button:disabled {
     text-shadow: 0 0 25px #ff1100ff, 0 0 50px #ff1100ff;
   }
 }
+
+/* ====== PANEL APUESTAS ====== */
+.panel-apuesta{
+  border: 2px solid rgba(255,17,0,0.6);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 18px;
+  background: rgba(0,0,0,0.25);
+  box-shadow: 0 0 18px rgba(255, 17, 0, 0.15);
+}
+
+.panel-apuesta .saldo,
+.panel-apuesta .apuesta{
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+#saldo{
+  color: #00ff88;
+}
+
+#apuesta-actual{
+  color: #ffd700;
+}
+
+.controles-apuesta{
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+#input-apuesta{
+  width: 240px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid rgba(255,255,255,0.15);
+  background: rgba(20,20,20,0.85);
+  color: #fff;
+  font-size: 16px;
+  outline: none;
+}
+
+#input-apuesta:focus{
+  border-color: rgba(255,17,0,0.9);
+  box-shadow: 0 0 12px rgba(255,17,0,0.3);
+}
+
+.chips{
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.chip, #btn-allin, #btn-limpiar, #btn-apostar{
+  padding: 10px 16px;
+  font-size: 16px;
+  margin: 6px;
+}
+
+#btn-limpiar{
+  background: linear-gradient(to bottom, #444, #222);
+}
+#btn-limpiar:hover:not(:disabled){
+  background: #555;
+}
+
+#msg-apuesta{
+  margin-top: 10px;
+  text-align: center;
+  font-weight: 700;
+  min-height: 22px;
+  color: #ffd700;
+}

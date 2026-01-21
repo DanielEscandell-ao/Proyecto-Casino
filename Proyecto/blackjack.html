@@ -29,6 +29,30 @@
       <h2>de Montepinar</h2>
     </div>
     <main>
+      <div class="panel-apuesta">
+  <div class="saldo">
+    Saldo: <span id="saldo">5000</span> fichas
+  </div>
+
+  <div class="apuesta">
+    Apuesta actual: <span id="apuesta-actual">0</span>
+  </div>
+
+  <div class="controles-apuesta">
+    <input id="input-apuesta" type="number" min="0" step="10" placeholder="Escribe tu apuesta" />
+    <button id="btn-apostar">Confirmar apuesta</button>
+  </div>
+
+  <div class="chips">
+    <button class="chip" data-valor="10">+10</button>
+    <button class="chip" data-valor="100">+100</button>
+    <button class="chip" data-valor="500">+500</button>
+    <button id="btn-allin">All-in</button>
+    <button id="btn-limpiar">Limpiar</button>
+  </div>
+
+  <div id="msg-apuesta" class="msg-apuesta"></div>
+</div>
       <div class="row mt-2">
         <div class="div1">
           <button class="boton1">Nuevo Juego</button>
