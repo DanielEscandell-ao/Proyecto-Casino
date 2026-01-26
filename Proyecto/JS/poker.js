@@ -1,36 +1,48 @@
-/* =========================================================
-   CONFIGURACIÓN BASE
-   ========================================================= */
-
 const SUITS = ['♠', '♥', '♦', '♣'];
-const VALUES = [2,3,4,5,6,7,8,9,10,11,12,13,14]; // 11=J, 12=Q, 13=K, 14=A
+const VALUES = [2,3,4,5,6,7,8,9,10,11,12,13,14];
+
+
+const START_CHIPS = 1000;
+const ANTE = 50;
+
+
+
 
 let deck = [];
 let playerHand = [];
 let cpuHand = [];
 let held = [false, false, false, false, false];
+let stage = "ready";
 
-let stage = "ready"; // ready → dealt → draw → done
 
-/* DOM ELEMENTOS */
+let playerChips = START_CHIPS;
+let cpuChips = START_CHIPS;
+let pot = 0;
+
+
+
+
 const dealBtn = document.getElementById("dealBtn");
 const drawBtn = document.getElementById("drawBtn");
 const newBtn = document.getElementById("newBtn");
 
+
 const playerDiv = document.getElementById("playerHand");
 const cpuDiv = document.getElementById("cpuHand");
+
 
 const msg = document.getElementById("message");
 const pEval = document.getElementById("playerEval");
 const cEval = document.getElementById("cpuEval");
 
 
+const potSpan = document.getElementById("potAmount");
+const playerChipsDiv = document.getElementById("playerChips");
+const cpuChipsDiv = document.getElementById("cpuChips");
 
-/* =========================================================
-   UTILIDADES
-   ========================================================= */
 
-// Fisher–Yates shuffle (mucho más profesional que Math.random sort)
+
+
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -39,224 +51,274 @@ function shuffle(array) {
     return array;
 }
 
+
 function createDeck() {
     const d = [];
     for (let s of SUITS) {
-        for (let v of VALUES) {
-            d.push({ v, s });
-        }
+        for (let v of VALUES) d.push({ v, s });
     }
     return shuffle(d);
 }
 
-// Representación visual de la carta
+
 function cardText(card) {
-    let v = card.v;
-    if (v === 14) v = 'A';
-    else if (v === 13) v = 'K';
-    else if (v === 12) v = 'Q';
-    else if (v === 11) v = 'J';
-    return `${v}${card.s}`;
+    const map = {11:'J',12:'Q',13:'K',14:'A'};
+    return `${map[card.v] || card.v}${card.s}`;
 }
 
-/* =========================================================
-   RENDERIZACIÓN
-   ========================================================= */
+
+
 
 function render(hand, container, interactive = false, hide = false) {
     container.innerHTML = "";
+
 
     hand.forEach((card, index) => {
         const el = document.createElement("div");
         el.className = "card";
 
-        if (!hide) {
+
+        if (hide) {
+            el.textContent = "🂠";
+            el.classList.add("card-back");
+        } else {
             el.textContent = cardText(card);
             el.classList.add(card.s === "♥" || card.s === "♦" ? "red" : "black");
-        } else {
-            el.textContent = "🂠";    // carta boca abajo profesional
-            el.classList.add("card-back");
         }
 
-        if (interactive) {
+
+       
+        if (interactive && stage === "dealt") {
             if (held[index]) el.classList.add("held");
 
+
             el.onclick = () => {
-                if (stage !== "dealt") return;
                 held[index] = !held[index];
                 render(playerHand, playerDiv, true);
             };
         }
 
+
         container.appendChild(el);
     });
 }
 
-/* =========================================================
-   RESETEAR / INICIAR JUEGO
-   ========================================================= */
 
-function reset() {
-    deck = createDeck();
-    playerHand = [];
-    cpuHand = [];
 
-    held = [false, false, false, false, false];
-    stage = "ready";
-
-    playerDiv.innerHTML = "";
-    cpuDiv.innerHTML = "";
-
-    msg.textContent = "";
-    pEval.textContent = "";
-    cEval.textContent = "";
-
-    drawBtn.disabled = true;
-    newBtn.disabled = true;
-    dealBtn.disabled = false;
-}
-
-/* =========================================================
-   REPARTIR
-   ========================================================= */
-
-function deal() {
-    reset();
-
-    for (let i = 0; i < 5; i++) playerHand.push(deck.pop());
-    for (let i = 0; i < 5; i++) cpuHand.push(deck.pop());
-
-    render(playerHand, playerDiv, true);
-    render(cpuHand, cpuDiv, false, true);
-
-    stage = "dealt";
-    drawBtn.disabled = false;
-    dealBtn.disabled = true;
-}
-
-/* =========================================================
-   EVALUACIÓN DE MANO
-   ========================================================= */
 
 function evaluate(hand) {
-    const values = hand.map(c => c.v).sort((a, b) => a - b);
+    const values = hand.map(c => c.v).sort((a,b)=>a-b);
+    const uniqueValues = [...new Set(values)];
     const suits = hand.map(c => c.s);
+
 
     const counts = {};
     values.forEach(v => counts[v] = (counts[v] || 0) + 1);
 
-    const isFlush = suits.every(s => s === suits[0]);
-    const isStraight =
-        values.every((v, i) => i === 0 || v === values[i - 1] + 1) ||
-        (values.toString() === "2,3,4,5,14"); // A-2-3-4-5
 
-    const countValues = Object.values(counts).sort((a, b) => b - a);
+    const countVals = Object.values(counts).sort((a,b)=>b-a);
+    const ordered = Object.entries(counts)
+        .sort((a,b)=> b[1]-a[1] || b[0]-a[0])
+        .map(e=>Number(e[0]));
 
-    let rank, name;
-    if (isStraight && isFlush && Math.max(...values) === 14) {
+
+    const flush = suits.every(s => s === suits[0]);
+    const straight =
+        uniqueValues.length === 5 &&
+        (uniqueValues[4] - uniqueValues[0] === 4 ||
+         uniqueValues.toString() === "2,3,4,5,14");
+
+
+    let rank = 1;
+    let name = "Carta Alta";
+
+
+    if (straight && flush && Math.max(...uniqueValues) === 14) {
         rank = 10; name = "Escalera Real";
-    } else if (isStraight && isFlush) {
+    } else if (straight && flush) {
         rank = 9; name = "Escalera de Color";
-    } else if (countValues[0] === 4) {
+    } else if (countVals[0] === 4) {
         rank = 8; name = "Póker";
-    } else if (countValues[0] === 3 && countValues[1] === 2) {
+    } else if (countVals[0] === 3 && countVals[1] === 2) {
         rank = 7; name = "Full";
-    } else if (isFlush) {
+    } else if (flush) {
         rank = 6; name = "Color";
-    } else if (isStraight) {
+    } else if (straight) {
         rank = 5; name = "Escalera";
-    } else if (countValues[0] === 3) {
+    } else if (countVals[0] === 3) {
         rank = 4; name = "Trío";
-    } else if (countValues[0] === 2 && countValues[1] === 2) {
+    } else if (countVals[0] === 2 && countVals[1] === 2) {
         rank = 3; name = "Doble Pareja";
-    } else if (countValues[0] === 2) {
+    } else if (countVals[0] === 2) {
         rank = 2; name = "Pareja";
-    } else {
-        rank = 1; name = "Carta Alta";
     }
 
-    // Orden real de comparación (primero las cartas que forman la jugada)
-    const ordered = Object.entries(counts)
-        .sort((a, b) =>
-            b[1] - a[1] || parseInt(b[0]) - parseInt(a[0])
-        )
-        .map(e => parseInt(e[0]));
 
     return { rank, name, ordered };
 }
 
-/* =========================================================
-   COMPARAR MANOS
-   ========================================================= */
 
-function compareHands(player, cpu) {
-    const P = evaluate(player);
-    const C = evaluate(cpu);
 
-    if (P.rank > C.rank) return `Jugador gana con ${P.name}`;
-    if (C.rank > P.rank) return `CPU gana con ${C.name}`;
 
-    // Desempate por high cards del orden real
+function compareHands() {
+    const P = evaluate(playerHand);
+    const C = evaluate(cpuHand);
+
+
+    if (P.rank !== C.rank) return P.rank > C.rank ? "player" : "cpu";
+
+
     for (let i = 0; i < P.ordered.length; i++) {
-        if (P.ordered[i] > C.ordered[i]) return `Jugador gana con ${P.name}`;
-        if (C.ordered[i] > P.ordered[i]) return `CPU gana con ${C.name}`;
+        if (P.ordered[i] !== C.ordered[i]) {
+            return P.ordered[i] > C.ordered[i] ? "player" : "cpu";
+        }
     }
-
-    return "Empate";
+    return "tie";
 }
 
-/* =========================================================
-   CPU INTELIGENCIA PROFESIONAL
-   ========================================================= */
+
+
 
 function cpuTurn() {
-    const handEval = evaluate(cpuHand);
+    const evalCpu = evaluate(cpuHand);
     const counts = {};
+
 
     cpuHand.forEach(c => counts[c.v] = (counts[c.v] || 0) + 1);
 
-    // CPU inteligente: mantiene parejas o mejores
-    for (let i = 0; i < 5; i++) {
-        const card = cpuHand[i];
 
-        if (counts[card.v] === 1 && handEval.rank < 4) {
+    for (let i = 0; i < 5; i++) {
+        if (evalCpu.rank <= 2 && counts[cpuHand[i].v] === 1) {
             cpuHand[i] = deck.pop();
         }
     }
 }
 
-/* =========================================================
-   CAMBIAR CARTAS
-   ========================================================= */
+
+
+
+function updateUI() {
+    potSpan.textContent = pot;
+    playerChipsDiv.textContent = `💰 ${playerChips}`;
+    cpuChipsDiv.textContent = `💰 ${cpuChips}`;
+}
+
+
+function reset() {
+    deck = createDeck();
+    playerHand = [];
+    cpuHand = [];
+    held = [false,false,false,false,false];
+    stage = "ready";
+
+
+    render([], playerDiv);
+    render([], cpuDiv);
+
+
+    msg.textContent = "";
+    pEval.textContent = "";
+    cEval.textContent = "";
+
+
+    dealBtn.disabled = false;
+    drawBtn.disabled = true;
+    newBtn.disabled = true;
+
+
+    updateUI();
+}
+
+
+function deal() {
+    if (playerChips < ANTE || cpuChips < ANTE) {
+        msg.textContent = " Sin fichas suficientes";
+        return;
+    }
+
+
+    reset();
+
+
+    playerChips -= ANTE;
+    cpuChips -= ANTE;
+    pot = ANTE * 2;
+
+
+    for (let i = 0; i < 5; i++) {
+        playerHand.push(deck.pop());
+        cpuHand.push(deck.pop());
+    }
+
+
+   
+    stage = "dealt";
+
+
+    render(playerHand, playerDiv, true);
+    render(cpuHand, cpuDiv, false, true);
+
+
+    dealBtn.disabled = true;
+    drawBtn.disabled = false;
+
+
+    updateUI();
+}
+
 
 function draw() {
     for (let i = 0; i < 5; i++) {
-        if (!held[i]) {
-            playerHand[i] = deck.pop();
-        }
+        if (!held[i]) playerHand[i] = deck.pop();
     }
+
 
     cpuTurn();
 
-    render(playerHand, playerDiv, false);
-    render(cpuHand, cpuDiv, false, false);
+
+    render(playerHand, playerDiv);
+    render(cpuHand, cpuDiv);
+
+
+    const winner = compareHands();
+
+
+    if (winner === "player") {
+        msg.textContent = " Ganas el bote";
+        playerChips += pot;
+    } else if (winner === "cpu") {
+        msg.textContent = " La CPU gana el bote";
+        cpuChips += pot;
+    } else {
+        msg.textContent = " Empate";
+        playerChips += pot / 2;
+        cpuChips += pot / 2;
+    }
+
+
+    pot = 0;
+
+
+    pEval.textContent = evaluate(playerHand).name;
+    cEval.textContent = evaluate(cpuHand).name;
+
 
     stage = "done";
     drawBtn.disabled = true;
     newBtn.disabled = false;
 
-    pEval.textContent = `Jugador: ${evaluate(playerHand).name}`;
-    cEval.textContent = `CPU: ${evaluate(cpuHand).name}`;
 
-    msg.textContent = compareHands(playerHand, cpuHand);
+    updateUI();
 }
 
-/* =========================================================
-   EVENTOS
-   ========================================================= */
+
+
 
 dealBtn.onclick = deal;
 drawBtn.onclick = draw;
 newBtn.onclick = reset;
+
+
+
 
 reset();
