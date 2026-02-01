@@ -1,34 +1,47 @@
 // ===============================
-// ===== VARIABLES Y ELEMENTOS ====
+// ===== BLACKJACK + APUESTAS =====
+// ===== BANCA + LENTA + AUDIO ====
 // ===============================
 
+// ====== BARAJA ======
 let baraja = [];
-const tipoCarta = ["C","D","P","T"];
-const especiales = ["A","K","Q","J"];
+const tipoCarta = ["C", "D", "P", "T"];
+const especiales = ["A", "K", "Q", "J"];
 
+// ====== PUNTOS ======
 let puntosJugador = 0;
 let puntosBanca = 0;
 
-// ===== SISTEMA DINERO / APUESTAS =====
+// ====== SISTEMA DINERO / APUESTAS ======
 let saldo = 5000;
 let apuesta = 0;
 let apuestaConfirmada = false;
 let rondaTerminada = false;
 
-// Referencias al HTML (botones juego)
+// ====== VELOCIDAD BANCA (más lenta) ======
+const DELAY_BANCA_MS = 900; // antes 650. Sube/baja a tu gusto (850-1100 suele estar bien)
+
+// ===============================
+// ===== REFERENCIAS AL HTML =====
+// ===============================
+
+// Botones del juego
 const btnNuevo = document.querySelector(".boton1");
 const btnPedir = document.querySelector(".boton2");
 const btnPasar = document.querySelector(".boton3");
 
+// Divs donde se colocan las cartas
 const divJugadorCartas = document.querySelector("#jugador-cartas");
 const divBancaCartas = document.querySelector("#banca-cartas");
 
+// Marcadores de puntos
 const marcadorJugador = document.querySelectorAll("div.row.container h1 small")[0];
 const marcadorBanca = document.querySelectorAll("div.row.container h1 small")[1];
 
+// Texto final (ganador)
 const textoGanador = document.querySelector("#ganador");
 
-// Referencias apuestas
+// Elementos de apuestas
 const elSaldo = document.querySelector("#saldo");
 const elApuestaActual = document.querySelector("#apuesta-actual");
 const inputApuesta = document.querySelector("#input-apuesta");
@@ -39,8 +52,50 @@ const msgApuesta = document.querySelector("#msg-apuesta");
 const chips = document.querySelectorAll(".chip");
 
 // ===============================
-// ===== UTILIDADES APUESTAS =====
+// ===== AUDIO (archivos locales) =
 // ===============================
+// Mete los audios en /Audio/ con estos nombres:
+// bg.mp3, card.wav, win.wav, lose.wav, push.wav
+
+const audio = {
+  bg: new Audio("Audio/bg.mp3"),
+  card: new Audio("Audio/card.wav"),
+  win: new Audio("Audio/win.wav"),
+  lose: new Audio("Audio/lose.wav"),
+  push: new Audio("Audio/push.wav"),
+};
+
+// Ajustes de volumen (modifica a gusto)
+audio.bg.volume = 0.25;    // música bajita
+audio.bg.loop = true;
+
+audio.card.volume = 0.7;
+audio.win.volume = 0.8;
+audio.lose.volume = 0.8;
+audio.push.volume = 0.8;
+
+// Para que suenen repetidos rápido sin cortarse
+const playSfx = (a) => {
+  if (!a) return;
+  a.currentTime = 0;
+  a.play().catch(() => {
+    // Si el navegador bloquea autoplay, no rompemos nada
+  });
+};
+
+// Iniciar música SOLO tras una interacción del usuario (por políticas del navegador)
+let musicaIniciada = false;
+const intentarIniciarMusica = () => {
+  if (musicaIniciada) return;
+  musicaIniciada = true;
+  audio.bg.play().catch(() => {});
+};
+
+// ===============================
+// ===== FUNCIONES AUXILIARES ====
+// ===============================
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const renderDinero = () => {
   elSaldo.textContent = saldo;
@@ -62,13 +117,12 @@ const bloquearApuestas = (bloquear) => {
   btnApostar.disabled = bloquear;
   btnAllIn.disabled = bloquear;
   btnLimpiar.disabled = bloquear;
-  chips.forEach(b => b.disabled = bloquear);
+  chips.forEach((b) => (b.disabled = bloquear));
 };
 
 // ===============================
 // ===== CREAR BARAJA ============
 // ===============================
-
 const crearBaraja = () => {
   baraja = [];
 
@@ -87,21 +141,19 @@ const crearBaraja = () => {
 // ===============================
 // ===== PEDIR / VALOR CARTA =====
 // ===============================
-
 const pedirCarta = () => {
   if (baraja.length === 0) throw "No hay más cartas";
   return baraja.pop();
 };
 
 const valorCarta = (carta) => {
-  let puntos = carta.slice(0, -1);
+  const puntos = carta.slice(0, -1);
   return isNaN(puntos) ? (puntos === "A" ? 11 : 10) : puntos * 1;
 };
 
 // ===============================
-// ===== MOSTRAR CARTA ===========
-/* =============================== */
-
+// ===== MOSTRAR CARTA EN HTML ====
+// ===============================
 const mostrarCarta = (carta, elementoHTML) => {
   const img = document.createElement("img");
   img.src = `Imagenes/cartas/${carta}.png`;
@@ -110,9 +162,8 @@ const mostrarCarta = (carta, elementoHTML) => {
 };
 
 // ===============================
-// ===== CONTROL DE RONDA ========
+// ===== RESETEAR MESA (MANO) ====
 // ===============================
-
 const resetMesa = () => {
   puntosJugador = 0;
   puntosBanca = 0;
@@ -124,42 +175,41 @@ const resetMesa = () => {
   divBancaCartas.innerHTML = "";
 
   textoGanador.textContent = "";
-
   rondaTerminada = false;
 };
 
-// Gana/pierde/empata y paga
+// ===============================
+// ===== PAGAR RESULTADO =========
+// ===============================
 const pagarResultado = (resultado) => {
-  if (apuestaConfirmada === false) return;
+  if (!apuestaConfirmada) return;
 
-  // resultado: "gana", "pierde", "empate"
   if (resultado === "gana") {
     saldo += apuesta;
     setMsg(`Has ganado +${apuesta} fichas`, true);
+    playSfx(audio.win);
   } else if (resultado === "pierde") {
     saldo -= apuesta;
     setMsg(`Has perdido -${apuesta} fichas`);
+    playSfx(audio.lose);
   } else {
     setMsg(`Empate: recuperas tu apuesta`, true);
+    playSfx(audio.push);
   }
 
-  // Reset apuesta para siguiente ronda
   apuesta = 0;
   apuestaConfirmada = false;
-
   renderDinero();
 
-  // Si te quedas sin saldo, bloquea apuestas/juego
   if (saldo <= 0) {
     saldo = 0;
     renderDinero();
-    setMsg("Te has quedado sin fichas. Reinicia para volver a 5000.");
+    setMsg("Te has quedado sin fichas. Recarga la página para volver a 5000.");
     bloquearJuego(true);
     bloquearApuestas(true);
   } else {
-    // tras acabar la ronda, se permite apostar de nuevo
     bloquearApuestas(false);
-    bloquearJuego(true); // hasta que confirme nueva apuesta
+    bloquearJuego(true);
   }
 };
 
@@ -171,34 +221,33 @@ const finalizarRonda = (resultadoTexto, resultadoPago) => {
 };
 
 // ===============================
-// ===== TURNO BANCA =============
+// ===== TURNO BANCA (LENTO) =====
 // ===============================
-
-const turnoBanca = () => {
+const turnoBanca = async () => {
   while (puntosBanca < puntosJugador && puntosJugador <= 21) {
     const carta = pedirCarta();
     puntosBanca += valorCarta(carta);
     marcadorBanca.textContent = puntosBanca;
     mostrarCarta(carta, divBancaCartas);
+
+    playSfx(audio.card);
+    await sleep(DELAY_BANCA_MS);
   }
 
-  setTimeout(() => {
-    if (puntosJugador > 21) {
-      finalizarRonda("Te pasaste, gana la banca", "pierde");
-    } else if (puntosBanca > 21) {
-      finalizarRonda("¡Tú ganas! La banca se pasó", "gana");
-    } else if (puntosBanca === puntosJugador) {
-      finalizarRonda("Empate", "empate");
-    } else {
-      finalizarRonda("La banca gana", "pierde");
-    }
-  }, 500);
+  if (puntosJugador > 21) {
+    finalizarRonda("Te pasaste, gana la banca", "pierde");
+  } else if (puntosBanca > 21) {
+    finalizarRonda("¡Tú ganas! La banca se pasó", "gana");
+  } else if (puntosBanca === puntosJugador) {
+    finalizarRonda("Empate", "empate");
+  } else {
+    finalizarRonda("La banca gana", "pierde");
+  }
 };
 
 // ===============================
-// ===== EVENTOS APUESTAS ========
+// ===== APUESTAS: CONFIRMAR =====
 // ===============================
-
 const intentarConfirmarApuesta = (cantidad) => {
   const num = Number(cantidad);
 
@@ -210,7 +259,6 @@ const intentarConfirmarApuesta = (cantidad) => {
     setMsg("No puedes apostar más de tu saldo");
     return;
   }
-  // opcional: apostar de 10 en 10
   if (num % 10 !== 0) {
     setMsg("La apuesta debe ser múltiplo de 10");
     return;
@@ -222,17 +270,20 @@ const intentarConfirmarApuesta = (cantidad) => {
 
   setMsg(`Apuesta confirmada: ${apuesta} fichas`, true);
 
-  // al confirmar apuesta, desbloquea juego y bloquea apuestas
   bloquearApuestas(true);
   bloquearJuego(false);
 
-  // preparamos nueva ronda (sin tocar saldo)
   crearBaraja();
   resetMesa();
 };
 
-chips.forEach(b => {
+// ===============================
+// ===== EVENTOS APUESTAS ========
+// ===============================
+chips.forEach((b) => {
   b.addEventListener("click", () => {
+    intentarIniciarMusica();
+
     const val = Number(b.dataset.valor);
     if (!Number.isFinite(val)) return;
 
@@ -240,6 +291,7 @@ chips.forEach(b => {
       setMsg("No puedes superar tu saldo");
       return;
     }
+
     apuesta += val;
     renderDinero();
     setMsg("Selecciona o confirma la apuesta", true);
@@ -247,6 +299,8 @@ chips.forEach(b => {
 });
 
 btnLimpiar.addEventListener("click", () => {
+  intentarIniciarMusica();
+
   apuesta = 0;
   apuestaConfirmada = false;
   renderDinero();
@@ -254,13 +308,16 @@ btnLimpiar.addEventListener("click", () => {
 });
 
 btnAllIn.addEventListener("click", () => {
+  intentarIniciarMusica();
+
   apuesta = saldo;
   renderDinero();
   setMsg("All-in seleccionado. Confirma la apuesta.", true);
 });
 
 btnApostar.addEventListener("click", () => {
-  // Si hay número escrito, usa eso; si no, usa la suma de chips
+  intentarIniciarMusica();
+
   const escrito = inputApuesta.value.trim();
   if (escrito !== "") {
     intentarConfirmarApuesta(escrito);
@@ -269,22 +326,19 @@ btnApostar.addEventListener("click", () => {
   }
 });
 
-// Enter para confirmar
 inputApuesta.addEventListener("keydown", (e) => {
   if (e.key === "Enter") btnApostar.click();
 });
 
 // ===============================
-// ===== EVENTOS JUEGO ===========
+// ===== EVENTOS DEL JUEGO =======
 // ===============================
-
-// Nuevo juego: reinicia SOLO LA MESA (y pide nueva apuesta)
 btnNuevo.addEventListener("click", () => {
-  // Si la ronda estaba a medias, no pagamos nada: simplemente empezamos otra
+  intentarIniciarMusica();
+
   resetMesa();
   crearBaraja();
 
-  // obliga a apostar de nuevo para jugar
   apuestaConfirmada = false;
   apuesta = 0;
   renderDinero();
@@ -295,8 +349,10 @@ btnNuevo.addEventListener("click", () => {
   bloquearApuestas(false);
 });
 
-// Pedir carta
-btnPedir.addEventListener("click", () => {
+// Pedir carta (jugador)
+btnPedir.addEventListener("click", async () => {
+  intentarIniciarMusica();
+
   if (!apuestaConfirmada || rondaTerminada) return;
 
   const carta = pedirCarta();
@@ -304,26 +360,30 @@ btnPedir.addEventListener("click", () => {
   marcadorJugador.textContent = puntosJugador;
   mostrarCarta(carta, divJugadorCartas);
 
-  if (puntosJugador > 21) {
-    turnoBanca(); // acabará pagando como pierde
-  } else if (puntosJugador === 21) {
-    turnoBanca();
+  playSfx(audio.card);
+
+  if (puntosJugador > 21 || puntosJugador === 21) {
+    bloquearJuego(true);
+    await turnoBanca();
   }
 });
 
 // Plantarse
-btnPasar.addEventListener("click", () => {
+btnPasar.addEventListener("click", async () => {
+  intentarIniciarMusica();
+
   if (!apuestaConfirmada || rondaTerminada) return;
-  turnoBanca();
+
+  bloquearJuego(true);
+  await turnoBanca();
 });
 
 // ===============================
 // ===== INICIO ==================
 // ===============================
-
 crearBaraja();
 renderDinero();
 setMsg("Elige tu apuesta para empezar", true);
-bloquearJuego(true);       // no jugar sin apuesta
-bloquearApuestas(false);   // sí permitir apostar
 
+bloquearJuego(true);
+bloquearApuestas(false);
