@@ -6,11 +6,7 @@
     <title>Póker Online</title>
 
 
-   
     <link rel="stylesheet" href="CSS/poker.css">
-
-
-   
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
 
@@ -32,17 +28,14 @@
 
 
 <main class="game-area">
-
-
     <section class="poker-table" aria-label="Mesa de póker">
 
 
-       
         <div id="animationLayer" class="animation-layer"></div>
 
 
        
-        <div id="communityCards" class="community-cards hidden"></div>
+        <div id="communityCards" class="community-cards"></div>
 
 
        
@@ -51,12 +44,11 @@
         </div>
 
 
-       
         <div class="players-area">
 
 
            
-            <div class="player player-main" data-player="human">
+            <div class="player player-main">
                 <h2 class="player-name">Jugador</h2>
                 <div id="playerHand" class="hand"></div>
                 <div id="playerEval" class="status"></div>
@@ -65,7 +57,7 @@
 
 
            
-            <div class="player player-opponent" data-player="cpu">
+            <div class="player player-opponent">
                 <h2 class="player-name">CPU</h2>
                 <div id="cpuHand" class="hand"></div>
                 <div id="cpuEval" class="status"></div>
@@ -79,12 +71,13 @@
        
         <div class="controls">
             <button id="dealBtn" class="btn primary">Repartir</button>
-            <button id="drawBtn" class="btn" disabled>Cambiar</button>
+            <button id="callBtn" class="btn" disabled>Call / Check</button>
+            <button id="raiseBtn" class="btn" disabled>Raise</button>
+            <button id="foldBtn" class="btn danger" disabled>Fold</button>
             <button id="newBtn" class="btn" disabled>Nueva Mano</button>
         </div>
 
 
-       
         <div id="message" class="message" aria-live="polite"></div>
 
 
@@ -92,10 +85,6 @@
 </main>
 
 
-
-
 <script src="JS/poker.js" type="module"></script>
-
-
 </body>
 </html>
