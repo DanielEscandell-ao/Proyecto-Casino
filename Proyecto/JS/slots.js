@@ -26,7 +26,6 @@ btnMute.addEventListener('click', () => {
     sonidoActivo = !sonidoActivo;
 
     if (sonidoActivo) {
-        // Si la música nunca se ha iniciado, o está pausada, reproducirla
         if (!bgMusicStarted) {
             bgMusic.play().catch(() => {});
             bgMusicStarted = true;
@@ -51,6 +50,17 @@ const btnAuto = document.getElementById("autoSpin");
 
 let spinning = false;
 let autoTimer = null;
+
+/* ========= HISTORIAL (AÑADIDO) ========= */
+const slotHistory = document.getElementById("slotHistory");
+
+function addSlotHistory(texto) {
+  if (!slotHistory) return; // seguridad por si no existe
+  const p = document.createElement("p");
+  p.textContent = texto;
+  slotHistory.appendChild(p);
+  slotHistory.scrollTop = slotHistory.scrollHeight;
+}
 
 /* ========= FUNCIONES AUXILIARES ========= */
 function randSym() {
@@ -118,8 +128,8 @@ async function spinOnce() {
   let balance = parseInt(balanceEl.textContent);
 
   if (bet <= 0) {
-  messageEl.textContent = "La apuesta mínima es de 1€";
-  return;
+    messageEl.textContent = "La apuesta mínima es de 1€";
+    return;
   }
 
   if (bet > balance) {
@@ -129,6 +139,9 @@ async function spinOnce() {
 
   spinning = true;
   balanceEl.textContent = balance - bet;
+
+  /* ====== HISTORIAL: inicio del giro ====== */
+  addSlotHistory(`Apuesta: ${bet}€ — Girando...`);
 
   // Iniciar sonido de giro reseteando para evitar solapamientos
   if (sonidoActivo) {
@@ -196,6 +209,10 @@ async function spinOnce() {
     showBigWin();
     explodeCoins();
     messageEl.textContent = `¡Ganaste ×${mult}! ${line.join(" ")}`;
+
+    /* ====== HISTORIAL: ganaste ====== */
+    addSlotHistory(`GANASTE ${prize}€ — Línea: ${line.join(" ")}`);
+
   } else {
     if (sonidoActivo) {
         sounds.lose.pause();
@@ -203,6 +220,9 @@ async function spinOnce() {
         sounds.lose.play();
     }
     messageEl.textContent = `Sin premio: ${line.join(" ")}`;
+
+    /* ====== HISTORIAL: perdiste ====== */
+    addSlotHistory(`Perdiste ${bet}€ — Línea: ${line.join(" ")}`);
   }
 
   spinning = false;

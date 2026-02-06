@@ -27,10 +27,12 @@
         <a href="ruleta.html">Ruleta</a>
       </div>
     </div>
+
     <div>
       <h1>El Gran Casino</h1>
       <h2>de Montepinar</h2>
     </div>
+
     <main class="app">
       <header class="topbar">
         <h1 class="brand">Slots</h1>
@@ -38,6 +40,7 @@
           Saldo: <strong id="balance">1000</strong> €
         </div>
       </header>
+
       <section class="slot">
         <div class="reel">
           <span class="symbol">🍒</span>
@@ -55,6 +58,7 @@
           <span class="symbol">🍋</span>
         </div>
       </section>
+
       <section class="controls">
         <div class="bet">
           <label>Apuesta</label>
@@ -78,11 +82,20 @@
           <button class="btn" id="mute">🔊 Sonido</button>
         </div>
       </section>
+
       <section class="message" id="message">
         ¡Bienvenido! Ajusta tu apuesta y pulsa GIRAR.
       </section>
+
+      <!-- ======== HISTORIAL DE JUGADAS ======== -->
+      <section class="historial" id="slotHistory">
+        <h3>Historial de jugadas</h3>
+      </section>
+
     </main>
+
     <div id="coinExplosion"></div>
+
     <audio id="bgMusic" src="/Proyecto/Audios/Slots/fondo.mp3" loop></audio>
     <audio id="spinSound" src="/Proyecto/Audios/Slots/apuesta.mp3"></audio>
     <audio id="betSound" src="/Proyecto/Audios/Slots/ganas.mp3"></audio>
