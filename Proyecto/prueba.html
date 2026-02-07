@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Poker Texas Hold'em</title>
+
+<style>
+body {
+  background:#0b6623;
+  color:white;
+  font-family:Arial;
+  text-align:center;
+}
+.cards {
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  min-height:120px;
+}
+.card {
+  width:80px;
+  height:120px;
+  background:white;
+  border-radius:8px;
+  padding:5px;
+  font-weight:bold;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  animation:deal .4s ease;
+}
+.card.red { color:red; }
+.back { background:linear-gradient(135deg,#333,#111); }
+
+@keyframes deal {
+  from { transform:translateY(-30px); opacity:0; }
+  to { transform:translateY(0); opacity:1; }
+}
+
+button,input {
+  padding:8px;
+  font-size:16px;
+  margin:5px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🃏 Texas Hold'em</h1>
+
+<h2>Jugador (<span id="playerChips">1000</span>)</h2>
+<div id="playerCards" class="cards"></div>
+
+<h2>Mesa</h2>
+<div id="tableCards" class="cards"></div>
+
+<h2>Máquina (<span id="cpuChips">1000</span>)</h2>
+<div id="cpuCards" class="cards"></div>
+
+<h3>Bote: <span id="pot">0</span></h3>
+
+<div>
+  <input type="number" id="raiseAmount" value="20" min="10" step="10">
+  <button onclick="playerAction('call')">Call</button>
+  <button onclick="playerAction('raise')">Raise</button>
+  <button onclick="playerAction('fold')">Fold</button>
+</div>
+
+<h2 id="status"></h2>
+
+<script>
+// ===== DOM =====
+const pCards = document.getElementById("playerCards");
+const cCards = document.getElementById("cpuCards");
+const tCards = document.getElementById("tableCards");
+const pChipsEl = document.getElementById("playerChips");
+const cChipsEl = document.getElementById("cpuChips");
+const potEl = document.getElementById("pot");
+const statusEl = document.getElementById("status");
+const raiseInput = document.getElementById("raiseAmount");
+
+// ===== CONSTANTES =====
+const SB = 5, BB = 10;
+const suits = ["♠","♥","♦","♣"];
+const values = ["2","3","4","5","6","7","8","9","10","J","Q","K","A"];
+const rankMap = Object.fromEntries(values.map((v,i)=>[v,i+2]));
+
+// ===== ESTADO =====
+let deck, playerHand, cpuHand, table;
+let playerChips = 1000, cpuChips = 1000;
+let pot = 0, stage = 0;
+
+// ===== UTILS =====
+function newDeck(){
+  return suits.flatMap(s=>values.map(v=>({v,s}))).sort(()=>Math.random()-0.5);
+}
+function draw(n){ return deck.splice(0,n); }
+
+function render(el,cards,hidden=false){
+  el.innerHTML="";
+  cards.forEach(c=>{
+    const d=document.createElement("div");
+    d.className="card"+((c.s==="♥"||c.s==="♦")?" red":"");
+    if(hidden) d.classList.add("back");
+    else d.innerHTML=`<span>${c.v}</span><span>${c.s}</span>`;
+    el.appendChild(d);
+  });
+}
+function updateUI(){
+  pChipsEl.textContent = playerChips;
+  cChipsEl.textContent = cpuChips;
+  potEl.textContent = pot;
+}
+
+// ===== GAME FLOW =====
+function startHand(){
+  deck = newDeck();
+  playerHand = draw(2);
+  cpuHand = draw(2);
+  table = [];
+  stage = 0;
+
+  playerChips -= SB;
+  cpuChips -= BB;
+  pot = SB + BB;
+
+  render(pCards,playerHand);
+  render(cCards,cpuHand,true);
+  render(tCards,table);
+
+  statusEl.textContent = "Pagas ciega pequeña. Tu turno.";
+  updateUI();
+}
+
+function nextStage(){
+  stage++;
+  if(stage===1) table.push(...draw(3));
+  if(stage===2) table.push(draw(1)[0]);
+  if(stage===3) table.push(draw(1)[0]);
+  render(tCards,table);
+  if(stage===3) showdown();
+}
+
+// ===== ACTIONS =====
+function playerAction(type){
+  if(type==="fold"){
+    cpuChips+=pot;
+    statusEl.textContent="Te retiras.";
+    return setTimeout(startHand,2000);
+  }
+
+  let bet = type==="raise" ? Number(raiseInput.value) : BB;
+  if(bet<=0 || bet>playerChips) return;
+
+  playerChips-=bet;
+  pot+=bet;
+
+  cpuTurn();
+}
+
+// ===== CPU =====
+function cpuTurn(){
+  const evalCPU = evaluate([...cpuHand,...table]);
+  let bet;
+
+  if(evalCPU.rank>=2){
+    bet = 40;
+    statusEl.textContent=`🤖 La máquina sube +${bet}`;
+  } else {
+    bet = BB;
+    statusEl.textContent="🤖 La máquina iguala";
+  }
+
+  if(cpuChips<bet){
+    playerChips+=pot;
+    return setTimeout(startHand,2000);
+  }
+
+  cpuChips-=bet;
+  pot+=bet;
+
+  nextStage();
+  updateUI();
+}
+
+// ===== SHOWDOWN =====
+function showdown(){
+  render(cCards,cpuHand);
+
+  const pEval = evaluate([...playerHand,...table]);
+  const cEval = evaluate([...cpuHand,...table]);
+
+  let msg;
+  if(pEval.rank>cEval.rank){
+    msg = `🏆 Ganas tú con ${pEval.name}`;
+    playerChips+=pot;
+  } else if(cEval.rank>pEval.rank){
+    msg = `🤖 Gana la máquina con ${cEval.name}`;
+    cpuChips+=pot;
+  } else {
+    msg = `🤝 Empate (${pEval.name})`;
+    playerChips+=pot/2;
+    cpuChips+=pot/2;
+  }
+
+  statusEl.textContent="Showdown...";
+  setTimeout(()=>{
+    statusEl.textContent=msg;
+    setTimeout(startHand,3000);
+  },2000);
+}
+
+// ===== EVALUATE =====
+function evaluate(cards){
+  const counts={}, suitsC={};
+  cards.forEach(c=>{
+    counts[c.v]=(counts[c.v]||0)+1;
+    suitsC[c.s]=(suitsC[c.s]||0)+1;
+  });
+
+  const vals=Object.values(counts).sort((a,b)=>b-a);
+  const flush=Object.values(suitsC).some(v=>v>=5);
+
+  let nums=[...new Set(cards.map(c=>rankMap[c.v]))].sort((a,b)=>a-b);
+  let straight=false;
+  for(let i=0;i<=nums.length-5;i++)
+    if(nums.slice(i,i+5).every((v,j)=>v===nums[i]+j)) straight=true;
+
+  if(straight&&flush) return {rank:8,name:"Escalera de color"};
+  if(vals[0]===4) return {rank:7,name:"Póker"};
+  if(vals[0]===3&&vals[1]===2) return {rank:6,name:"Full"};
+  if(flush) return {rank:5,name:"Color"};
+  if(straight) return {rank:4,name:"Escalera"};
+  if(vals[0]===3) return {rank:3,name:"Trío"};
+  if(vals[0]===2&&vals[1]===2) return {rank:2,name:"Doble pareja"};
+  if(vals[0]===2) return {rank:1,name:"Pareja"};
+  return {rank:0,name:"Carta alta"};
+}
+
+// ===== START =====
+startHand();
+</script>
+
+</body>
+</html>

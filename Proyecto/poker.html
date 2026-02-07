@@ -1,90 +1,88 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Póker – El Gran Casino</title>
-
-    <link rel="stylesheet" href="/Proyecto/CSS/poker.css" />
-    <script src="/Proyecto/JS/poker.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Póker – El Gran Casino</title>
+<link rel="stylesheet" href="CSS/poker.css">
+<script src="JS/poker.js" defer></script>
 </head>
-
 <body>
 
-    <!-- ======== MENÚ SUPERIOR ======== -->
-    <div class="links">
-        <div><a href="proyecto.html">Inicio</a></div>
-        <div><a href="blackjack.html">Blackjack</a></div>
-        <div><a href="poker.html">Poker</a></div>
-        <div><a href="slots.html">Slots</a></div>
-        <div><a href="ruleta.html">Ruleta</a></div>
+<!-- ======== MENÚ SUPERIOR ======== -->
+<div class="links">
+    <div><a href="proyecto.html">Inicio</a></div>
+    <div><a href="blackjack.html">Blackjack</a></div>
+    <div><a href="poker.html">Poker</a></div>
+    <div><a href="slots.html">Slots</a></div>
+    <div><a href="ruleta.html">Ruleta</a></div>
+</div>
+
+<!-- ======== TÍTULOS ======== -->
+<h1>El Gran Casino</h1>
+<h2>Póker Texas Hold’em</h2>
+
+<main class="app">
+
+  <div class="balance">
+    Saldo: <strong id="saldoJugador">1000</strong> €
+  </div>
+
+  <!-- ======== JUEGO ======== -->
+  <div class="mesa-container">
+    <!-- Mano jugador -->
+    <div class="mano jugador">
+      <h3>Jugador</h3>
+      <div class="cartas" id="cartasJugador"></div>
     </div>
 
-    <!-- ======== TÍTULOS ======== -->
-    <div>
-        <h1>El Gran Casino</h1>
-        <h2>Póker de Montepinar</h2>
+    <!-- Mesa -->
+    <div class="mesa">
+      <h3>Mesa</h3>
+      <div class="cartas" id="cartasMesa"></div>
     </div>
 
-    <!-- ======== CONTENEDOR PRINCIPAL ======== -->
-    <main class="app">
+    <!-- Mano máquina -->
+    <div class="mano maquina">
+      <h3>Máquina</h3>
+      <div class="cartas" id="cartasMaquina"></div>
+    </div>
+  </div>
 
-        <!-- ======== CABECERA DEL JUEGO ======== -->
-        <header class="topbar">
-            <h1 class="brand">Póker</h1>
-            <div class="balance">
-                Saldo: <strong id="saldoJugador">1000</strong> €
-            </div>
-        </header>
+  <!-- ======== BOTE ======== -->
+  <div class="info">
+    Bote actual: <strong id="boteActual">0</strong> €
+  </div>
 
-        <!-- ======== ZONA DEL CRUPIER ======== -->
-        <section class="zona">
-            <h3 class="zona__titulo">Crupier</h3>
-            <div class="cartas" id="cartasCrupier"></div>
-        </section>
+  <!-- ======== CONTROLES ======== -->
+  <div class="controls">
+    <div class="bet">
+      <label>Raise</label>
+      <div class="bet__group">
+        <button class="btn btn--ghost" id="betMinus">−</button>
+        <input id="apuestaRaise" class="bet__input" type="number" value="10" min="10" step="10"/>
+        <button class="btn btn--ghost" id="betPlus">+</button>
+      </div>
+    </div>
 
-        <!-- ======== ZONA DEL JUGADOR ======== -->
-        <section class="zona">
-            <h3 class="zona__titulo">Tus cartas</h3>
-            <div class="cartas" id="cartasJugador"></div>
+    <div class="actions">
+      <button class="btn btn--primary" id="btnCall" disabled>Call</button>
+      <button class="btn btn--secondary" id="btnRaise" disabled>Raise</button>
+      <button class="btn btn--ghost" id="btnFold" disabled>Fold</button>
+    </div>
+  </div>
 
-            <div class="info">
-                <p>Bote actual: <strong id="boteActual">0</strong> €</p>
-            </div>
+  <!-- ======== MENSAJE ======== -->
+  <section class="message" id="mensaje">
+    Bienvenido al póker. Inicia la mano.
+  </section>
 
-            <!-- ======== CONTROLES ======== -->
-            <div class="controls">
+  <!-- ======== HISTORIAL ======== -->
+  <section class="historial" id="historial">
+    <h3>Historial de manos</h3>
+  </section>
 
-                <div class="bet">
-                    <label>Apuesta</label>
-                    <div class="bet__group">
-                        <button class="btn btn--ghost" id="betMinus">−</button>
-                        <input id="apuestaInicial" class="bet__input" type="number" value="50" min="10" step="10" />
-                        <button class="btn btn--ghost" id="betPlus">+</button>
-                    </div>
-                </div>
-
-                <div class="actions">
-                    <button class="btn btn--primary" id="btnNuevaMano">Nueva mano</button>
-                    <button class="btn btn--secondary" id="btnApostar" disabled>Apostar</button>
-                    <button class="btn btn--secondary" id="btnCambiarCartas" disabled>Cambiar cartas</button>
-                    <button class="btn btn--ghost" id="btnRetirarse" disabled>Retirarse</button>
-                </div>
-
-            </div>
-
-            <section class="message" id="mensaje">
-                Bienvenido al póker. Inicia una nueva mano.
-            </section>
-
-            <!-- ======== HISTORIAL ======== -->
-            <section class="historial" id="historial">
-                <h3>Historial de manos</h3>
-            </section>
-
-        </section>
-
-    </main>
+</main>
 
 </body>
 </html>

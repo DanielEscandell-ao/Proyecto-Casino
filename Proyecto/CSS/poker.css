@@ -1,295 +1,283 @@
-/* ======== Reset general ======== */
+/* ======== Reset ======== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
+body {
+  font-family: "Poppins", sans-serif;
+  background: radial-gradient(circle at top, #1a1a1a, #000);
+  color: #f5f5f5;
+  text-align: center;
+}
 a {
   text-decoration: none;
 }
 
-body {
-  font-family: 'Poppins', sans-serif;
-  background: radial-gradient(circle at top, #1a1a1a, #000);
-  color: #f5f5f5;
-  overflow-x: hidden;
-}
-
-/* ======== Menú superior ======== */
+/* ======== Menú ======== */
 .links {
   display: flex;
   justify-content: center;
   background: linear-gradient(90deg, #000, #1a1a1a);
   border-bottom: 2px solid #ff1100ff;
-  padding: 1rem 0;
+  padding: 0.5rem 0;
+  font-size: 14px;
   position: sticky;
   top: 0;
   z-index: 10;
 }
-
 .links div {
-  margin: 0 1.5rem;
+  margin: 0 1rem;
 }
-
 .links a {
   color: #f5f5f5;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
-  transition: color 0.3s ease, transform 0.3s ease;
+  transition: 0.3s;
 }
-
 .links a:hover {
   color: #ff1100ff;
   transform: scale(1.1);
 }
 
 /* ======== Títulos ======== */
-h1, h2 {
-  text-align: center;
+h1,
+h2 {
   margin-top: 1rem;
   letter-spacing: 3px;
 }
-
 h1 {
   color: #ff1100ff;
-  font-size: 3rem;
+  font-size: 2.2rem;
   text-transform: uppercase;
   animation: glow 2s infinite alternate;
 }
-
 h2 {
   color: #fff;
-  font-size: 2rem;
-  margin-bottom: 2rem;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 /* ======== Contenedor principal ======== */
 .app {
   max-width: 900px;
-  margin: 40px auto;
+  margin: 20px auto;
+  padding: 15px;
   background: #250000cc;
-  padding: 25px;
-  border-radius: 12px;
+  border-radius: 10px;
   border: 2px solid #b00000;
-  box-shadow: 0 0 25px #ff000050, inset 0 0 20px #300000aa;
+  box-shadow:
+    0 0 20px #ff000050,
+    inset 0 0 15px #300000aa;
 }
 
-/* ======== Cabecera del juego ======== */
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 15px;
-  border-bottom: 2px solid #700000;
+/* ======== Balance ======== */
+.balance {
+  font-size: 16px;
+  margin-bottom: 10px;
 }
-
-.brand {
-  font-size: 46px;
-  font-weight: 900;
-  color: #ff2a2a;
-  text-shadow: 0 0 20px #ff0000aa;
-}
-
 .balance strong {
   color: #ffe066;
-  text-shadow: 0 0 10px #ffdd00;
+  text-shadow: 0 0 5px #ffdd00;
 }
 
-/* ======== Zonas de juego ======== */
-.zona {
-  margin-top: 30px;
-  padding: 20px;
-  background: #1a0000aa;
-  border: 2px solid #700000;
-  border-radius: 10px;
-  box-shadow: inset 0 0 15px #000000aa;
+/* ======== Mesa estilo Texas Hold’em ======== */
+.mesa-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 10px;
 }
-
-.zona__titulo {
-  font-size: 22px;
-  margin-bottom: 15px;
+.mano {
+  flex: 1;
+  min-width: 120px;
+}
+.mesa {
+  flex: 2;
+  min-width: 200px;
+}
+.mesa h3,
+.mano h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
   color: #ff4444;
-  text-shadow: 0 0 10px #ff000080;
+  text-shadow: 0 0 5px #ff000080;
 }
 
 /* ======== Cartas ======== */
 .cartas {
   display: flex;
-  gap: 15px;
+  gap: 8px;
   flex-wrap: wrap;
   justify-content: center;
+  min-height: 100px;
 }
-
 .carta {
-  width: 90px;
-  height: 130px;
+  width: 60px;
+  height: 90px;
   background: #fff;
   color: #000;
-  border-radius: 10px;
-  padding: 8px;
+  border-radius: 6px;
+  padding: 4px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: 0 0 10px #000;
+  box-shadow: 0 0 6px #000;
   cursor: pointer;
-  transition: .2s;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  opacity: 0;
+  animation: aparecerCarta 0.3s forwards;
 }
-
 .carta:hover {
   transform: scale(1.05);
 }
-
+.carta.rojo {
+  color: red;
+}
+.carta.negro {
+  color: black;
+}
 .carta.oculta {
   background: #111;
   color: #111;
-  box-shadow: inset 0 0 10px #000;
+  box-shadow: inset 0 0 6px #000;
 }
-
-.carta.seleccionada {
-  outline: 3px solid #ff1100;
-  transform: translateY(-8px) scale(1.05);
-}
-
-.carta .valor {
-  font-size: 20px;
+.carta .valor,
+.carta .valor-inferior {
+  font-size: 14px;
   font-weight: bold;
 }
-
 .carta .palo {
-  font-size: 28px;
+  font-size: 18px;
   text-align: center;
 }
-
-.carta .valor-inferior {
-  font-size: 18px;
-  text-align: right;
+@keyframes aparecerCarta {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ======== Información ======== */
 .info {
-  margin-top: 15px;
+  margin-top: 10px;
   text-align: center;
-  font-size: 18px;
+  font-size: 14px;
 }
-
 .info strong {
   color: #ffe066;
 }
 
 /* ======== Controles ======== */
 .controls {
-  margin-top: 25px;
+  margin-top: 10px;
   text-align: center;
 }
-
 .bet__group {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  margin-top: 8px;
+  gap: 5px;
+  margin-top: 5px;
 }
-
 .bet__input {
-  width: 90px;
-  padding: 7px;
+  width: 50px;
   text-align: center;
-  font-size: 20px;
-  border-radius: 6px;
+  font-size: 14px;
+  border-radius: 5px;
   background: #3d0000;
-  border: 2px solid #990000;
   color: #fff;
-  box-shadow: inset 0 0 6px #000;
+  border: 2px solid #990000;
 }
 
 /* ======== Botones ======== */
 .btn {
-  padding: 12px 24px;
-  font-size: 18px;
-  border-radius: 8px;
+  padding: 6px 14px;
+  margin: 3px;
+  border-radius: 6px;
   cursor: pointer;
   border: none;
   font-weight: bold;
-  margin: 5px;
-  transition: .2s;
+  font-size: 12px;
+  transition: 0.2s;
 }
-
 .btn--primary {
   background: #d40000;
   color: white;
-  box-shadow: 0 0 10px #ff000050;
+  box-shadow: 0 0 6px #ff000050;
 }
-
 .btn--primary:hover {
   background: #ff1a1a;
-  box-shadow: 0 0 15px #ff000090;
+  box-shadow: 0 0 10px #ff000090;
 }
-
 .btn--secondary {
   background: #660000;
   color: #ffdddd;
   border: 2px solid #aa0000;
 }
-
 .btn--secondary:hover {
   background: #990000;
 }
-
 .btn--ghost {
   background: transparent;
   border: 2px solid #ff5555;
   color: #ffdddd;
 }
-
 .btn--ghost:hover {
   background: #5a0000;
   border-color: #ff9999;
 }
-
 button:disabled {
-  opacity: 0.4;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 /* ======== Mensajes ======== */
 .message {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 22px;
+  margin-top: 10px;
+  font-size: 16px;
   color: #ff9999;
-  text-shadow: 0 0 8px #ff000080;
   min-height: 30px;
+  text-shadow: 0 0 5px #ff000080;
 }
 
 /* ======== Historial ======== */
 .historial {
-  margin-top: 25px;
-  padding: 15px;
+  margin-top: 15px;
+  padding: 10px;
   background: #2a0000aa;
   border: 2px solid #700000;
-  border-radius: 10px;
-  max-height: 200px;
+  border-radius: 8px;
+  max-height: 150px;
   overflow-y: auto;
-  box-shadow: inset 0 0 10px #000;
+  box-shadow: inset 0 0 6px #000;
 }
-
 .historial h3 {
   color: #ff4444;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
-
 .historial p {
-  margin: 5px 0;
-  font-size: 16px;
+  font-size: 12px;
+  margin: 2px 0;
 }
 
 /* ======== Animación glow ======== */
 @keyframes glow {
   from {
-    text-shadow: 0 0 10px #ff1100ff, 0 0 20px #ff1100ff;
+    text-shadow:
+      0 0 10px #ff1100ff,
+      0 0 20px #ff1100ff;
   }
   to {
-    text-shadow: 0 0 25px #ff1100ff, 0 0 50px #ff1100ff;
+    text-shadow:
+      0 0 25px #ff1100ff,
+      0 0 50px #ff1100ff;
   }
 }
