@@ -6,53 +6,60 @@
     <title>Juego de Black Jack</title>
     <link rel="stylesheet" href="CSS/blackjack.css" />
   </head>
+
   <body>
     <div class="links">
-      <div class="inicio">
-        <a href="proyecto.html">Inicio</a>
-      </div>
-      <div class="blackjack">
-        <a href="blackjack.html">Blackjack</a>
-      </div>
-      <div class="poker">
-        <a href="poker.html">Poker</a>
-      </div>
-      <div class="slots">
-        <a href="slots.html">Slots</a>
-      </div>
-      <div class="ruleta">
-        <a href="ruleta.html">Ruleta</a>
-      </div>
+      <div class="inicio"><a href="proyecto.html">Inicio</a></div>
+      <div class="blackjack"><a href="blackjack.html">Blackjack</a></div>
+      <div class="poker"><a href="poker.html">Poker</a></div>
+      <div class="slots"><a href="slots.html">Slots</a></div>
+      <div class="ruleta"><a href="ruleta.html">Ruleta</a></div>
     </div>
+
     <div class="titulo">
       <h1>El Gran Casino</h1>
       <h2>de Montepinar</h2>
     </div>
+
     <main>
+      <!-- PANEL APUESTAS + SONIDO -->
       <div class="panel-apuesta">
-  <div class="saldo">
-    Saldo: <span id="saldo">5000</span> fichas
-  </div>
+        <div class="panel-top">
+          <div class="saldo">Saldo: <span id="saldo">5000</span> fichas</div>
 
-  <div class="apuesta">
-    Apuesta actual: <span id="apuesta-actual">0</span>
-  </div>
+          <button id="btn-mute" class="btn-sonido" type="button">
+            <span class="icono" aria-hidden="true">🔊</span>
+            <span class="texto">Sonido</span>
+          </button>
+        </div>
 
-  <div class="controles-apuesta">
-    <input id="input-apuesta" type="number" min="0" step="10" placeholder="Escribe tu apuesta" />
-    <button id="btn-apostar">Confirmar apuesta</button>
-  </div>
+        <div class="apuesta">
+          Apuesta actual: <span id="apuesta-actual">0</span>
+        </div>
 
-  <div class="chips">
-    <button class="chip" data-valor="10">+10</button>
-    <button class="chip" data-valor="100">+100</button>
-    <button class="chip" data-valor="500">+500</button>
-    <button id="btn-allin">All-in</button>
-    <button id="btn-limpiar">Limpiar</button>
-  </div>
+        <div class="controles-apuesta">
+          <input
+            id="input-apuesta"
+            type="number"
+            min="0"
+            step="10"
+            placeholder="Escribe tu apuesta"
+          />
+          <button id="btn-apostar">Confirmar apuesta</button>
+        </div>
 
-  <div id="msg-apuesta" class="msg-apuesta"></div>
-</div>
+        <div class="chips">
+          <button class="chip" data-valor="10">+10</button>
+          <button class="chip" data-valor="100">+100</button>
+          <button class="chip" data-valor="500">+500</button>
+          <button id="btn-allin">All-in</button>
+          <button id="btn-limpiar">Limpiar</button>
+        </div>
+
+        <div id="msg-apuesta" class="msg-apuesta"></div>
+      </div>
+
+      <!-- BOTONES JUEGO -->
       <div class="row mt-2">
         <div class="div1">
           <button class="boton1">Nuevo Juego</button>
@@ -60,24 +67,44 @@
           <button class="boton3">Plantarse</button>
         </div>
       </div>
+
+      <!-- JUGADOR -->
       <div class="row container">
         <div class="col">
-          <h1>Tu - <small></small></h1>
-          <div id="jugador-cartas">
-            <img class="carta" src="" />
-          </div>
+          <h1>Tu - <small id="puntos-jugador">0</small></h1>
+          <div id="jugador-cartas"></div>
         </div>
       </div>
+
+      <!-- BANCA -->
       <div class="row container">
         <div class="col">
-          <h1>Banca - <small></small></h1>
-          <div id="banca-cartas">
-            <img class="carta" src="" />
-          </div>
+          <h1>Banca - <small id="puntos-banca">?</small></h1>
+          <div id="banca-cartas"></div>
         </div>
       </div>
+
       <div id="ganador"></div>
+
+      <!-- HISTORIAL (UNA SOLA VEZ) -->
+      <section class="historial" id="historial">
+        <h3>Historial de manos</h3>
+        <div id="historial-lista"></div>
+      </section>
     </main>
+
+    <footer class="pie">
+      <div class="pie-inner">
+        <span>© 2026 Casino Montepinar</span>
+        <span class="sep">•</span>
+        <a href="#">Política de cookies</a>
+        <span class="sep">•</span>
+        <a href="#">Privacidad</a>
+        <span class="sep">•</span>
+        <a href="#">Licencias</a>
+      </div>
+    </footer>
+
     <script src="JS/underscore.js"></script>
     <script src="JS/blackjack.js"></script>
   </body>

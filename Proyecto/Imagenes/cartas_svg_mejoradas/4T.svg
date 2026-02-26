@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 450">
+  <rect x="5" y="5" width="290" height="440" rx="25" ry="25" fill="white" stroke="#dddddd" stroke-width="2"/>
+  <text x="28" y="62" font-size="50" font-family="Arial, sans-serif" fill="#000000" font-weight="bold">4</text>
+  <text x="30" y="105" font-size="40" font-family="Arial, sans-serif" fill="#000000">♣</text>
+
+  <g transform="rotate(180 150 225)">
+    <text x="230" y="62" font-size="50" font-family="Arial, sans-serif" fill="#000000" font-weight="bold">4</text>
+    <text x="232" y="105" font-size="40" font-family="Arial, sans-serif" fill="#000000">♣</text>
+  </g>
+
+  <text x="95" y="140" text-anchor="middle" font-size="70" font-family="Arial, sans-serif" fill="#000000">♣</text>
+  <text x="205" y="140" text-anchor="middle" font-size="70" font-family="Arial, sans-serif" fill="#000000">♣</text>
+  <text x="95" y="310" text-anchor="middle" font-size="70" font-family="Arial, sans-serif" fill="#000000" transform="rotate(180 95 310)">♣</text>
+  <text x="205" y="310" text-anchor="middle" font-size="70" font-family="Arial, sans-serif" fill="#000000" transform="rotate(180 205 310)">♣</text>
+
+</svg>
