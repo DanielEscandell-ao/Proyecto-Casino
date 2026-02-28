@@ -4,7 +4,9 @@
   padding: 0;
   box-sizing: border-box;
 }
-a { text-decoration: none; }
+a {
+  text-decoration: none;
+}
 
 body {
   font-family: "Poppins", sans-serif;
@@ -26,15 +28,22 @@ body {
   top: 0;
   z-index: 10;
 }
-.links div { margin: 0 1.5rem; }
+.links div {
+  margin: 0 1.5rem;
+}
 .links a {
   color: #f5f5f5;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
-  transition: color 0.3s ease, transform 0.3s ease;
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
 }
-.links a:hover { color: #ff1100ff; transform: scale(1.1); }
+.links a:hover {
+  color: #ff1100ff;
+  transform: scale(1.1);
+}
 
 /* ======== LAYOUT ======== */
 .container {
@@ -65,8 +74,8 @@ body {
 
 .flecha {
   position: absolute;
-  top: 6px;
-  left: 50%;
+  top: 405px;
+  left: 48%;
   transform: translateX(-50%);
   width: 0;
   height: 0;
@@ -101,8 +110,13 @@ body {
   animation: glow 2s infinite alternate;
 }
 
-#balance { margin-top: 8px; font-weight: 700; }
-#balance strong { color: #00ff88; }
+#balance {
+  margin-top: 8px;
+  font-weight: 700;
+}
+#balance strong {
+  color: #00ff88;
+}
 
 /* ====== BOTÓN SONIDO ====== */
 .btn-sonido {
@@ -114,7 +128,10 @@ body {
   cursor: pointer;
   transition: 0.2s;
 }
-.btn-sonido:hover { transform: scale(1.05); border-color: rgba(255, 17, 0, 0.7); }
+.btn-sonido:hover {
+  transform: scale(1.05);
+  border-color: rgba(255, 17, 0, 0.7);
+}
 
 /* ====== FICHAS ====== */
 .fichas {
@@ -135,10 +152,18 @@ body {
   font-weight: 800;
   transition: 0.2s;
 }
-.chip:hover { background: #ff1100ff; color: #000; transform: scale(1.06); }
-.chip.active { background: #ff1100ff; color: #000; box-shadow: 0 0 18px rgba(255, 17, 0, 0.35); }
+.chip:hover {
+  background: #ff1100ff;
+  color: #000;
+  transform: scale(1.06);
+}
+.chip.active {
+  background: #ff1100ff;
+  color: #000;
+  box-shadow: 0 0 18px rgba(255, 17, 0, 0.35);
+}
 
-.apuesta-info{
+.apuesta-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -146,9 +171,11 @@ body {
   margin-bottom: 12px;
   font-weight: 700;
 }
-#chip-seleccionada { color: #ffd700; }
+#chip-seleccionada {
+  color: #ffd700;
+}
 
-.btn-limpiar{
+.btn-limpiar {
   background: linear-gradient(to bottom, #444, #222);
   color: white;
   border: none;
@@ -157,18 +184,21 @@ body {
   cursor: pointer;
   transition: 0.2s;
 }
-.btn-limpiar:hover{ transform: scale(1.04); background: #555; }
-
-/* ====== TAPETE REALISTA ====== */
-.tapete-wrap{
-  border: 2px solid rgba(255,17,0,0.55);
-  border-radius: 12px;
-  padding: 12px;
-  background: rgba(0,0,0,0.25);
-  box-shadow: inset 0 0 18px rgba(0,0,0,0.55);
+.btn-limpiar:hover {
+  transform: scale(1.04);
+  background: #555;
 }
 
-.tapete{
+/* ====== TAPETE REALISTA ====== */
+.tapete-wrap {
+  border: 2px solid rgba(255, 17, 0, 0.55);
+  border-radius: 12px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.25);
+  box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.55);
+}
+
+.tapete {
   display: grid;
   grid-template-columns: 70px repeat(12, 1fr) 70px;
   grid-auto-rows: 46px;
@@ -176,45 +206,53 @@ body {
   user-select: none;
 }
 
-.celda{
+.celda {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 900;
   border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   cursor: pointer;
-  transition: transform 0.12s, border 0.12s;
+  transition:
+    transform 0.12s,
+    border 0.12s;
   background: #111;
   min-width: 0;
 }
-.celda:hover{
+.celda:hover {
   transform: scale(1.03);
   border-color: rgba(255, 17, 0, 0.8);
 }
 
-.celda.rojo{ background: #b30000; }
-.celda.negro{ background: #0f0f0f; }
-.celda.verde{ background: #006600; }
+.celda.rojo {
+  background: #b30000;
+}
+.celda.negro {
+  background: #0f0f0f;
+}
+.celda.verde {
+  background: #006600;
+}
 
-.celda.outside{
-  background: rgba(30,30,30,0.9);
+.celda.outside {
+  background: rgba(30, 30, 30, 0.9);
   color: #fff;
   font-size: 13px;
   letter-spacing: 0.5px;
 }
 
-.celda.zero{
+.celda.zero {
   grid-column: 1 / 2;
   grid-row: 1 / 4;
   background: #006600;
   font-size: 18px;
-  border: 2px solid rgba(255,255,255,0.12);
+  border: 2px solid rgba(255, 255, 255, 0.12);
 }
 
 /* CHIP VISUAL (importe) */
-.badge{
+.badge {
   position: absolute;
   bottom: 6px;
   right: 6px;
@@ -224,11 +262,11 @@ body {
   font-size: 12px;
   padding: 2px 6px;
   border-radius: 999px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.45);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.45);
 }
 
 /* ====== BOTÓN GIRAR ====== */
-.btn-girar{
+.btn-girar {
   width: 100%;
   margin-top: 14px;
   background: linear-gradient(90deg, #ff1100ff, #ff3b3b);
@@ -238,19 +276,21 @@ body {
   font-weight: 900;
   cursor: pointer;
   color: #000;
-  transition: transform 0.2s, box-shadow 0.3s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.3s;
 }
-.btn-girar:hover{
+.btn-girar:hover {
   transform: scale(1.02);
   box-shadow: 0 0 25px rgba(255, 17, 0, 0.65);
 }
-.btn-girar:disabled{
+.btn-girar:disabled {
   opacity: 0.55;
   cursor: not-allowed;
 }
 
 /* ====== RESULTADO ====== */
-.resultado{
+.resultado {
   margin-top: 12px;
   text-align: center;
   font-weight: 800;
@@ -259,21 +299,29 @@ body {
 }
 
 /* ====== FOOTER ====== */
-.footer{
+.footer {
   margin-top: 30px;
   padding: 18px 12px;
   text-align: center;
-  color: rgba(255,255,255,0.85);
-  border-top: 1px solid rgba(255,17,0,0.35);
-  background: rgba(0,0,0,0.4);
+  color: rgba(255, 255, 255, 0.85);
+  border-top: 1px solid rgba(255, 17, 0, 0.35);
+  background: rgba(0, 0, 0, 0.4);
 }
-.footer-links{
+.footer-links {
   margin-top: 6px;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 /* ====== ANIMACIÓN TÍTULO ====== */
 @keyframes glow {
-  from { text-shadow: 0 0 10px #ff1100ff, 0 0 20px #ff1100ff; }
-  to   { text-shadow: 0 0 25px #ff1100ff, 0 0 50px #ff1100ff; }
+  from {
+    text-shadow:
+      0 0 10px #ff1100ff,
+      0 0 20px #ff1100ff;
+  }
+  to {
+    text-shadow:
+      0 0 25px #ff1100ff,
+      0 0 50px #ff1100ff;
+  }
 }

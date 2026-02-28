@@ -9,16 +9,14 @@
 </head>
 
 <body>
-  <!-- ======== MENÚ SUPERIOR ======== -->
   <div class="links">
-    <div><a href="proyecto.html">Inicio</a></div>
+    <div><a href="index.html">Inicio</a></div>
     <div><a href="blackjack.html">Blackjack</a></div>
     <div><a href="poker.html">Poker</a></div>
     <div><a href="slots.html">Slots</a></div>
     <div><a href="ruleta.html">Ruleta</a></div>
   </div>
 
-  <!-- ======== TÍTULOS ======== -->
   <h1>El Gran Casino</h1>
   <h2>Póker Texas Hold’em</h2>
 
@@ -33,28 +31,23 @@
       <button class="btn-sound" id="btnSound" type="button">🔊 Sonido</button>
     </div>
 
-    <!-- ======== JUEGO ======== -->
     <div class="mesa-container">
-      <!-- Mano jugador -->
       <div class="mano jugador">
         <h3>Jugador</h3>
         <div class="cartas" id="cartasJugador"></div>
       </div>
 
-      <!-- Mesa -->
       <div class="mesa">
         <h3>Mesa</h3>
         <div class="cartas mesa-cartas" id="cartasMesa"></div>
       </div>
 
-      <!-- Mano máquina -->
       <div class="mano maquina">
         <h3>Máquina</h3>
         <div class="cartas" id="cartasMaquina"></div>
       </div>
     </div>
 
-    <!-- ======== CONTROLES ======== -->
     <div class="controls">
       <div class="bet">
         <label>Raise</label>
@@ -73,12 +66,10 @@
       </div>
     </div>
 
-    <!-- ======== MENSAJE ======== -->
     <section class="message" id="mensaje">
       Bienvenido al póker. Pulsa “Nueva mano”.
     </section>
 
-    <!-- ======== HISTORIAL ======== -->
     <section class="historial" id="historial">
       <h3>Historial de manos</h3>
       <div class="historial-lista" id="historialLista"></div>
@@ -90,7 +81,6 @@
     <div class="footer-links">Política de cookies · Privacidad · Licencias</div>
   </footer>
 
-  <!-- Música ambiente (la tuya) -->
   <audio id="bgMusic" src="Audio/fondo.mp3" loop></audio>
 </body>
 </html>
