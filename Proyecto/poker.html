@@ -1,88 +1,96 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Póker – El Gran Casino</title>
-<link rel="stylesheet" href="CSS/poker.css">
-<script src="JS/poker.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Póker – El Gran Casino</title>
+  <link rel="stylesheet" href="CSS/poker.css" />
+  <script src="JS/poker.js" defer></script>
 </head>
-<body>
 
-<!-- ======== MENÚ SUPERIOR ======== -->
-<div class="links">
+<body>
+  <!-- ======== MENÚ SUPERIOR ======== -->
+  <div class="links">
     <div><a href="proyecto.html">Inicio</a></div>
     <div><a href="blackjack.html">Blackjack</a></div>
     <div><a href="poker.html">Poker</a></div>
     <div><a href="slots.html">Slots</a></div>
     <div><a href="ruleta.html">Ruleta</a></div>
-</div>
-
-<!-- ======== TÍTULOS ======== -->
-<h1>El Gran Casino</h1>
-<h2>Póker Texas Hold’em</h2>
-
-<main class="app">
-
-  <div class="balance">
-    Saldo: <strong id="saldoJugador">1000</strong> €
   </div>
 
-  <!-- ======== JUEGO ======== -->
-  <div class="mesa-container">
-    <!-- Mano jugador -->
-    <div class="mano jugador">
-      <h3>Jugador</h3>
-      <div class="cartas" id="cartasJugador"></div>
+  <!-- ======== TÍTULOS ======== -->
+  <h1>El Gran Casino</h1>
+  <h2>Póker Texas Hold’em</h2>
+
+  <main class="app">
+    <div class="topbar">
+      <div class="balance">
+        Saldo: <strong id="saldoJugador">1000</strong> €
+        <span class="sep">|</span>
+        Bote: <strong id="boteActual">0</strong> €
+      </div>
+
+      <button class="btn-sound" id="btnSound" type="button">🔊 Sonido</button>
     </div>
 
-    <!-- Mesa -->
-    <div class="mesa">
-      <h3>Mesa</h3>
-      <div class="cartas" id="cartasMesa"></div>
-    </div>
+    <!-- ======== JUEGO ======== -->
+    <div class="mesa-container">
+      <!-- Mano jugador -->
+      <div class="mano jugador">
+        <h3>Jugador</h3>
+        <div class="cartas" id="cartasJugador"></div>
+      </div>
 
-    <!-- Mano máquina -->
-    <div class="mano maquina">
-      <h3>Máquina</h3>
-      <div class="cartas" id="cartasMaquina"></div>
-    </div>
-  </div>
+      <!-- Mesa -->
+      <div class="mesa">
+        <h3>Mesa</h3>
+        <div class="cartas mesa-cartas" id="cartasMesa"></div>
+      </div>
 
-  <!-- ======== BOTE ======== -->
-  <div class="info">
-    Bote actual: <strong id="boteActual">0</strong> €
-  </div>
-
-  <!-- ======== CONTROLES ======== -->
-  <div class="controls">
-    <div class="bet">
-      <label>Raise</label>
-      <div class="bet__group">
-        <button class="btn btn--ghost" id="betMinus">−</button>
-        <input id="apuestaRaise" class="bet__input" type="number" value="10" min="10" step="10"/>
-        <button class="btn btn--ghost" id="betPlus">+</button>
+      <!-- Mano máquina -->
+      <div class="mano maquina">
+        <h3>Máquina</h3>
+        <div class="cartas" id="cartasMaquina"></div>
       </div>
     </div>
 
-    <div class="actions">
-      <button class="btn btn--primary" id="btnCall" disabled>Call</button>
-      <button class="btn btn--secondary" id="btnRaise" disabled>Raise</button>
-      <button class="btn btn--ghost" id="btnFold" disabled>Fold</button>
+    <!-- ======== CONTROLES ======== -->
+    <div class="controls">
+      <div class="bet">
+        <label>Raise</label>
+        <div class="bet__group">
+          <button class="btn btn--ghost" id="betMinus">−</button>
+          <input id="apuestaRaise" class="bet__input" type="number" value="20" min="10" step="10" />
+          <button class="btn btn--ghost" id="betPlus">+</button>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn--primary" id="btnCall" disabled>Call</button>
+        <button class="btn btn--secondary" id="btnRaise" disabled>Raise</button>
+        <button class="btn btn--ghost" id="btnFold" disabled>Fold</button>
+        <button class="btn btn--dark" id="btnNueva" type="button">Nueva mano</button>
+      </div>
     </div>
-  </div>
 
-  <!-- ======== MENSAJE ======== -->
-  <section class="message" id="mensaje">
-    Bienvenido al póker. Inicia la mano.
-  </section>
+    <!-- ======== MENSAJE ======== -->
+    <section class="message" id="mensaje">
+      Bienvenido al póker. Pulsa “Nueva mano”.
+    </section>
 
-  <!-- ======== HISTORIAL ======== -->
-  <section class="historial" id="historial">
-    <h3>Historial de manos</h3>
-  </section>
+    <!-- ======== HISTORIAL ======== -->
+    <section class="historial" id="historial">
+      <h3>Historial de manos</h3>
+      <div class="historial-lista" id="historialLista"></div>
+    </section>
+  </main>
 
-</main>
+  <footer class="footer">
+    <div>© 2026 Casino Montepinar</div>
+    <div class="footer-links">Política de cookies · Privacidad · Licencias</div>
+  </footer>
 
+  <!-- Música ambiente (la tuya) -->
+  <audio id="bgMusic" src="Audio/fondo.mp3" loop></audio>
 </body>
 </html>

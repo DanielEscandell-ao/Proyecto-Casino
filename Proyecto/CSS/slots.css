@@ -127,7 +127,7 @@ h2 {
 }
 
 .reel.spinning {
-  animation: reelSpin .12s linear infinite;
+  animation: reelSpin .14s linear infinite;
 }
 
 @keyframes reelSpin {
@@ -198,6 +198,24 @@ h2 {
 .btn--ghost:hover {
   background: #5a0000;
   border-color: #ff9999;
+}
+
+/* ====== Botón Sonido (estilo casino) ====== */
+#mute{
+  background: #1b1b1b;
+  color: #f5f5f5;
+  border: 2px solid #ff1100ff;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-weight: 700;
+  box-shadow: 0 0 10px rgba(255, 17, 0, 0.25);
+}
+#mute:hover{
+  background: #2a0000;
+  transform: translateY(-1px);
+}
+#mute:active{
+  transform: translateY(0);
 }
 
 #autoSpin.active {
@@ -294,4 +312,19 @@ h2 {
   to {
     text-shadow: 0 0 25px #ff1100ff, 0 0 50px #ff1100ff;
   }
+}
+
+/* ====== Footer ====== */
+.footer{
+  margin-top: 30px;
+  padding: 16px 10px;
+  border-top: 2px solid #ff1100ff;
+  background: linear-gradient(90deg, #000, #1a1a1a);
+  color: #ddd;
+  font-size: 13px;
+  text-align: center;
+}
+.footer-links{
+  margin-top: 6px;
+  opacity: .9;
 }

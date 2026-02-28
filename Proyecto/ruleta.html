@@ -6,48 +6,68 @@
     <title>Ruleta</title>
     <link rel="stylesheet" href="CSS/ruleta.css" />
   </head>
+
   <body>
+    <!-- ======== MENÚ ======== -->
     <div class="links">
-      <div class="inicio">
-        <a href="proyecto.html">Inicio</a>
-      </div>
-      <div class="blackjack">
-        <a href="blackjack.html">Blackjack</a>
-      </div>
-      <div class="poker">
-        <a href="poker.html">Poker</a>
-      </div>
-      <div class="slots">
-        <a href="slots.html">Slots</a>
-      </div>
-      <div class="ruleta">
-        <a href="ruleta.html">Ruleta</a>
-      </div>
+      <div class="inicio"><a href="proyecto.html">Inicio</a></div>
+      <div class="blackjack"><a href="blackjack.html">Blackjack</a></div>
+      <div class="poker"><a href="poker.html">Poker</a></div>
+      <div class="slots"><a href="slots.html">Slots</a></div>
+      <div class="ruleta"><a href="ruleta.html">Ruleta</a></div>
     </div>
+
     <div class="container">
+      <!-- ====== RULETA (CANVAS) ====== -->
       <div class="ruleta-area">
-        <canvas id="ruleta" width="400" height="400"></canvas>
+        <canvas id="ruleta" width="420" height="420"></canvas>
         <div class="flecha"></div>
       </div>
-      <div class="panel">
-        <h1>Ruleta</h1>
-        <p id="balance">Balance: $1000</p>
 
-        <div class="fichas">
-          <button data-value="1">$1</button>
-          <button data-value="5">$5</button>
-          <button data-value="10">$10</button>
-          <button data-value="50">$50</button>
-          <button data-value="100">$100</button>
-          <button data-value="500">$500</button>
+      <!-- ====== PANEL DERECHO ====== -->
+      <div class="panel">
+        <div class="panel-top">
+          <div>
+            <h1>Ruleta</h1>
+            <p id="balance">Saldo: 1000 fichas</p>
+          </div>
+
+          <button id="btn-sonido" class="btn-sonido" title="Mute música (los SFX siguen sonando)">
+            🔊 Sonido
+          </button>
         </div>
 
-        <div id="tapete" class="tapete"></div>
+        <!-- ====== FICHAS ====== -->
+        <div class="fichas">
+          <button class="chip" data-value="10">+10</button>
+          <button class="chip" data-value="50">+50</button>
+          <button class="chip" data-value="100">+100</button>
+          <button class="chip" data-value="500">+500</button>
+        </div>
 
-        <button id="girar">Girar Ruleta</button>
-        <p id="resultado"></p>
+        <div class="apuesta-info">
+          Ficha seleccionada: <span id="chip-seleccionada">10</span>
+          <button id="btn-limpiar" class="btn-limpiar">Limpiar apuestas</button>
+        </div>
+
+        <!-- ====== TAPETE REALISTA ====== -->
+        <div class="tapete-wrap">
+          <div id="tapete" class="tapete"></div>
+        </div>
+
+        <button id="girar" class="btn-girar">Girar Ruleta</button>
+        <p id="resultado" class="resultado">Haz una apuesta para empezar.</p>
       </div>
     </div>
+
+    <!-- ====== FOOTER ====== -->
+    <footer class="footer">
+      <div>© 2026 Casino Montepinar</div>
+      <div class="footer-links">Política de cookies · Privacidad · Licencias</div>
+    </footer>
+
+    <!-- Música ambiental (tu archivo) -->
+    <audio id="bgMusic" src="Audio/fondo.mp3" loop></audio>
 
     <script src="JS/ruleta.js"></script>
   </body>
