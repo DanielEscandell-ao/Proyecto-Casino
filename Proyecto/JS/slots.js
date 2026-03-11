@@ -1,6 +1,4 @@
-// =================== SLOTS.JS (ENTERO) ===================
-
-// ========== Audio helpers ==========
+// Audio helpers
 function loadAudio(src) {
   const a = new Audio(src);
   a.preload = "auto";
@@ -17,16 +15,11 @@ function playSafe(audioObj) {
   } catch (e) {}
 }
 
-// ========== Sonidos ==========
+// Sonidos
 const sounds = {
-  // IMPORTANTE: apuesta.mp3 (con A)
   click: loadAudio("/Proyecto/Audios/Slots/apuesta.mp3"),
   spin:  loadAudio("/Proyecto/Audios/Slots/apuesta.mp3"),
   win:   loadAudio("/Proyecto/Audios/Slots/ganas.mp3"),
-
-  // Opcionales: si no los tienes no pasa nada (no rompe)
-  stop:  loadAudio("/Proyecto/Audios/Slots/stop.mp3"),
-  lose:  loadAudio("/Proyecto/Audios/Slots/lose.mp3"),
 };
 
 // Música de fondo
@@ -52,7 +45,7 @@ btnMute.addEventListener("click", async () => {
   }
 });
 
-// ========== Variables principales ==========
+// Variables principales
 const SYMBOLS = ["🍒", "🍋", "🍇", "🔔", "⭐", "🍀", "7️⃣"];
 const reels = [...document.querySelectorAll(".reel")];
 const balanceEl = document.getElementById("balance");
@@ -135,13 +128,13 @@ function explodeCoins() {
   }
 }
 
-// ========== CONFIG de velocidad (AJUSTA AQUÍ) ==========
+// Config de velocidad (AJUSTA AQUÍ)
 const SPIN_TICK_MS = 110;       // velocidad de "parpadeo" mientras gira (más alto = más lento)
 const ALL_SPIN_TIME_MS = 1100;  // tiempo total girando antes de empezar a parar
 const STOP_GAP_MS = 420;        // separación entre paradas (izq -> medio -> dcha)
 const AUTO_DELAY_MS = 600;      // delay entre tiradas en auto
 
-// ========== Giro principal (EMPIEZAN A LA VEZ / PARAN EN SECUENCIA) ==========
+// Giro principal (EMPIEZAN A LA VEZ / PARAN EN SECUENCIA)
 async function spinOnce() {
   if (spinning) return;
 
@@ -172,7 +165,7 @@ async function spinOnce() {
   // Sonido giro
   if (sonidoActivo) playSafe(sounds.spin);
 
-  // 1) EMPIEZAN LAS 3 A LA VEZ
+  // 1) Empiezan los 3 rodillos al mismo tiempo
   const intervals = [];
   reels.forEach((reel, i) => {
     reel.classList.add("spinning");
@@ -181,17 +174,17 @@ async function spinOnce() {
     }, SPIN_TICK_MS);
   });
 
-  // 2) TIEMPO GIRANDO ANTES DE PARAR
+  // 2) Tiempo girando antes de parar
   await new Promise((r) => setTimeout(r, ALL_SPIN_TIME_MS));
 
-  // 3) PARAN EN ORDEN (IZQ -> MEDIO -> DCHA)
+  // 3) Paran en orden (IZQ -> MEDIO -> DCHA)
   const final = [];
 
   for (let i = 0; i < reels.length; i++) {
     clearInterval(intervals[i]);
 
     const res = [randSym(), randSym(), randSym()];
-    final[i] = res; // guardamos en su índice
+    final[i] = res;
     renderReel(reels[i], res);
     reels[i].classList.remove("spinning");
 
@@ -258,7 +251,7 @@ async function spinOnce() {
   }
 }
 
-// ========== Eventos ==========
+// Eventos
 btnSpin.addEventListener("click", spinOnce);
 
 btnAuto.addEventListener("click", () => {
